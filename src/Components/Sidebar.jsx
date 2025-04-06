@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleSidebar } from "../Redux/Slice/sidebarSlice.js";
 
 const Sidebar = () => {
+  const { isAuthenticated } = useSelector(state => state.user)
   const { isSidebarOpen } = useSelector((state) => state.sidebar);
-  console.log(isSidebarOpen);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -21,19 +21,25 @@ const Sidebar = () => {
     { name: "Home", icon: <FaHome />, link: "/" },
     { name: "Passwords", icon: <FaLock />, link: "/passwords" },
     { name: "Profile", icon: <FaUser />, link: "/profile" },
-    { name: "Login", icon: <LuLogIn />, link: "/login" },
   ];
+
+   // Add "Login" only if the user is NOT authenticated
+   if (!isAuthenticated) {
+    menuItems.push({ name: "Login", icon: <LuLogIn />, link: "/login" });
+  }
 
   return (
     <div>
       <div
-        className={`bg-teal-800 text-white h-screen ${
-          isSidebarOpen ? "md:w-60" : "md:w-16"
-        } transition-width duration-300 ease-in-out fixed left-0 top-0`}
+        className={`bg-teal-800 hidden sm:block text-white h-screen
+        ${
+          isSidebarOpen ? " w-40 md:w-52 lg:w-60" : "sm:w-12 md:w-16"
+        } transition-width duration-300 ease-in-out fixed left-0 top-0 
+        `}
       >
         <div className="p-4 flex justify-between items-center">
           {isSidebarOpen && (
-            <h2 className="text-xl font-bold text-gray-100">Menu</h2>
+            <h2 className=" text-xl font-bold text-gray-100">Menu</h2>
           )}
           <button
             onClick={() => dispatch(toggleSidebar())}

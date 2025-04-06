@@ -3,7 +3,7 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true; // To handle cookie automatically
 
-export const isAuthenticated = createAsyncThunk(
+export const isUserAuthenticated = createAsyncThunk(
   "user/isAuthenticated", 
   async(_, { rejectedWithValue }) => {
     try {
@@ -43,22 +43,36 @@ const userSlice = createSlice({
     setEmailVerified: (state) => {
       state.isEmailVerified = true;
     },
+    logoutStart: (state) => {
+      state.isLoading = true;
+      state.error = false;
+    },
+    logoutSuccess: (state) => {
+      state.isLoading = false;
+      state.error = false;
+      state.isAuthenticated = false;
+      state.userDetails = null;
+    },
+    logoutFail: (state) => {
+      state.isLoading = false;
+      state.error = false;
+    }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(isAuthenticated.fulfilled, (state, action) => {
+      .addCase(isUserAuthenticated.fulfilled, (state, action) => {
         state.isAuthenticated = true,
         state.userDetails = action.payload
       })
 
-      .addCase(isAuthenticated.rejected, (state) => {
+      .addCase(isUserAuthenticated.rejected, (state) => {
         state.isAuthenticated = false;
         state.userDetails = null;
       })
   }
 });
 
-export const { loginStart, loginSuccess, loginFail, setEmailVerified } =
+export const { loginStart, loginSuccess, loginFail, setEmailVerified, logoutStart, logoutSuccess, logoutFail } =
   userSlice.actions;
 
 export default userSlice.reducer;

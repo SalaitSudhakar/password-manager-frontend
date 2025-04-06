@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isSidebarOpen: false,
+  isSmallScreenSidebarOpen: false,
 };
 
 const sidebarSlice = createSlice({
@@ -11,8 +12,11 @@ const sidebarSlice = createSlice({
     toggleSidebar: (state) => {
       state.isSidebarOpen = !state.isSidebarOpen;
     },
+    toggleSmallScreenSidebar: (state) => {
+      state.isSmallScreenSidebarOpen = !state.isSmallScreenSidebarOpen;
+    }
   },
 });
 
-export const { toggleSidebar } = sidebarSlice.actions;
+export const { toggleSidebar, toggleSmallScreenSidebar } = sidebarSlice.actions;
 export default sidebarSlice.reducer;
