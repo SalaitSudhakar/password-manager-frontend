@@ -28,7 +28,7 @@ const Layout = () => {
         <Navbar />
       </div>
 
-      {isSmallScreenSidebarOpen && <SmallScreenSidebar />}
+       <SmallScreenSidebar />
 
       {/* Sidebar is conditionally hidden */}
 

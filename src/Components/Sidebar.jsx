@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleSidebar } from "../Redux/Slice/sidebarSlice.js";
 
 const Sidebar = () => {
-  const { isAuthenticated } = useSelector(state => state.user)
+  const { isAuthenticated } = useSelector((state) => state.user);
   const { isSidebarOpen } = useSelector((state) => state.sidebar);
 
   const dispatch = useDispatch();
   const location = useLocation();
 
-  // Close sidebar when changing routes 
+  // Close sidebar when changing routes
   useEffect(() => {
     if (isSidebarOpen) {
       dispatch(toggleSidebar());
@@ -24,15 +24,14 @@ const Sidebar = () => {
     return null;
   }
 
-  const menuItems = [
-    { name: "Home", icon: <FaHome />, link: "/" },
-    { name: "Passwords", icon: <FaLock />, link: "/passwords" },
-    { name: "Profile", icon: <FaUser />, link: "/profile" },
-  ];
+  const menuItems = [{ name: "Home", icon: <FaHome />, link: "/" }];
 
-   // Add "Login" only if the user is NOT authenticated
-   if (!isAuthenticated) {
+  // Add "Login" only if the user is NOT authenticated
+  if (!isAuthenticated) {
     menuItems.push({ name: "Login", icon: <LuLogIn />, link: "/login" });
+  } else {
+    menuItems.push({ name: "Passwords", icon: <FaLock />, link: "/passwords" });
+    menuItems.push({ name: "Profile", icon: <FaUser />, link: "/profile" })
   }
 
   return (

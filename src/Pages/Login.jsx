@@ -37,7 +37,7 @@ const Login = () => {
 
       console.log(data);
       dispatch(loginSuccess(data));
-      toast.error(data.message);
+      toast.success(data.message);
       navigate("/");
     } catch (error) {
       dispatch(loginFail(error));
