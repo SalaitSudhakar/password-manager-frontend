@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { LuLogIn } from "react-icons/lu";
 import { FaHome, FaUser, FaLock, FaAngleLeft, FaBars } from "react-icons/fa";
@@ -11,6 +11,13 @@ const Sidebar = () => {
 
   const dispatch = useDispatch();
   const location = useLocation();
+
+  // Close sidebar when changing routes 
+  useEffect(() => {
+    if (isSidebarOpen) {
+      dispatch(toggleSidebar());
+    }
+  }, [location.pathname]);
 
   // Hide side bar on login and register pages
   if (location.pathname === "/login" || location.pathname === "/register") {

@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { toggleSmallScreenSidebar } from "../Redux/Slice/sidebarSlice";
 import { FaHome, FaLock, FaUser } from "react-icons/fa";
 import { LuLogIn } from "react-icons/lu";
+import { MdClose } from 'react-icons/md'
 
 const SmallScreenSidebar = () => {
   const dispatch = useDispatch();
@@ -17,11 +18,12 @@ const SmallScreenSidebar = () => {
     return null;
   }
 
-  const menuItems = [
-    { name: "Home", icon: <FaHome />, link: "/" },
-    { name: "Passwords", icon: <FaLock />, link: "/passwords" },
-    { name: "Profile", icon: <FaUser />, link: "/profile" },
-  ];
+  const menuItems = [];
+  if (isAuthenticated) {
+    menuItems.push({ name: "Home", icon: <FaHome />, link: "/" });
+    menuItems.push({ name: "Passwords", icon: <FaLock />, link: "/passwords" });
+    menuItems.push({ name: "Profile", icon: <FaUser />, link: "/profile" });
+  }
 
   // Add "Login" only if the user is NOT authenticated
   if (!isAuthenticated) {
@@ -35,11 +37,13 @@ const SmallScreenSidebar = () => {
   const handleOverlayClick = () => {
     isSmallScreenSidebarOpen && dispatch(toggleSmallScreenSidebar());
   };
+
   return (
-    <div>
+    <div className="sm:hidden">
       {/* Overlay */}
       <div
-        className={`fixed inset-0 bg-gray-500/20 transition-opacity duration-500 z-40 ${
+        onClick={handleOverlayClick}
+        className={`fixed inset-0 bg-black/10 bg-opacity-40 z-40 transition-opacity duration-300 ease-in-out ${
           isSmallScreenSidebarOpen
             ? "opacity-100 visible"
             : "opacity-0 invisible"
@@ -48,32 +52,27 @@ const SmallScreenSidebar = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full w-60 bg-teal-800 text-white transition-transform duration-700 z-50 sm:hidden
-          ${
-            isSmallScreenSidebarOpen
-              ? "translate-x-0 ease-out"
-              : "-translate-x-[110%] ease-in"
-          }
-        `}
-        style={{ willChange: "transform" }}
+        className={`fixed top-0 left-0 h-screen w-64 bg-teal-800 text-white z-50 transform transition-transform duration-300 ease-in-out ${
+          isSmallScreenSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } shadow-lg`}
       >
-        <div className="p-4 flex justify-between items-center">
-          <h2 className="text-xl font-bold text-gray-100">Menu</h2>
-          <button
-            onClick={handleHamburgerClick}
-            className="p-2 rounded-full text-gray-300 hover:bg-red-500"
-          >
-            ✖
+        <div className="flex justify-between items-center p-4 bg-teal-700">
+          <h2 className="text-xl font-bold text-teal-50">Menu</h2>
+          <button onClick={handleHamburgerClick} className="p-2  text-gray rounded-full hover:bg-gray-700 transition-colors duration-100">
+            <MdClose size={24} title="close-icon" className="text-gray-200 font-bold"/>{" "}
           </button>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-5">
           {menuItems.map((item, index) => (
-            <Link key={index} to={item.link} onClick={handleHamburgerClick}>
-              <div className="flex items-center p-4 hover:bg-gray-700 cursor-pointer">
-                <div className="text-xl text-teal-500">{item.icon}</div>
-                <span className="ml-4 text-gray-100">{item.name}</span>
-              </div>
+            <Link
+              key={index}
+              to={item.link}
+              onClick={handleHamburgerClick}
+              className="flex items-center p-3 hover:bg-gray-700 transition-colors duration-200"
+            >
+              <div className="text-xl text-teal-300 mr-3">{item.icon}</div>
+              <span className="text-teal-50">{item.name}</span>
             </Link>
           ))}
         </div>

@@ -98,7 +98,7 @@ const Navbar = () => {
               console.log("Hamburger Clicked");
               dispatch(toggleSmallScreenSidebar());
             }}
-            className=" text-white sm:hidden hover:border-gray-200 p-2 hover:bg-gray-500 cursor-pointer hover:text-white rounded-full"
+            className=" text-white sm:hidden hover:border-gray-200 p-2 hover:bg-gray-700 cursor-pointer hover:text-white rounded-full"
           >
             <FaBars />
           </button>
