@@ -39,7 +39,7 @@ const Navbar = () => {
 
   return (
     <nav className=" bg-teal-800 px-2 py-4 sm:px-4 ">
-      <div className="flex items-center text-sm sm:text-base justify-between  max-w-6xl mx-auto">
+      <div className="flex items-center text-sm sm:text-lg justify-between  max-w-6xl mx-auto">
         <div>
           <Link to="/" className="ml-2 flex gap-1 items-center justify-center">
             <img src={logo} alt="logo" className="w-10 h-10 " />
@@ -59,23 +59,17 @@ const Navbar = () => {
 
           {isAuthenticated ? (
             <>
-              <Link to="/passwords">
-                <li className="hover:underline hover:text-teal-400">
-                  Passwords
-                </li>
-              </Link>
-
               <Link to="/profile">
                 <img
                   src={userDetails.user.profile}
                   alt="user profile"
-                  className=" border border-gray-100  text-teal-400"
+                  className=" border rounded-full w-10 border-gray-100  text-teal-400"
                 />
               </Link>
 
               <button
                 onClick={handleLogout}
-                className="flex items-center justify-center gap-1 p-1 sm:p-3 text-gray-400 bg-gradient-to-b from-red-500 to-red-700  border-white bg-amber-400 rounded-lg font-semibold duration-100  shadow-sm shadow-red-200 transition-all transform  hover:scale-105  ease-in-out hover:text-red-100"
+                className="flex items-center justify-center gap-1 p-1.5 sm:p-3 text-gray-400 bg-gradient-to-b from-red-500 to-red-700  border-white bg-amber-400 rounded-lg font-semibold duration-100  shadow-sm shadow-red-200 transition-all transform  hover:scale-105  ease-in-out hover:text-red-100"
               >
                 <FaSignOutAlt className="text-gray-400 group-hover:text-red-400 w-2 sm:w-4" />
                 <span>Logout </span>
