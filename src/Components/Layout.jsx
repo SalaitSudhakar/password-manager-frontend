@@ -6,14 +6,11 @@ import Navbar from "./Navbar";
 import SmallScreenSidebar from "./SmallScreenSidebar.jsx";
 
 const Layout = () => {
-  const { isSmallScreenSidebarOpen } = useSelector((state) => state.sidebar);
   const { isSidebarOpen } = useSelector((state) => state.sidebar);
   const location = useLocation();
   const hideLayout =
     location.pathname === "/login" || location.pathname === "/register";
 
-    console.log(isSmallScreenSidebarOpen)
-    
   return (
     <div>
       <div
@@ -28,7 +25,7 @@ const Layout = () => {
         <Navbar />
       </div>
 
-       <SmallScreenSidebar />
+      <SmallScreenSidebar />
 
       {/* Sidebar is conditionally hidden */}
 

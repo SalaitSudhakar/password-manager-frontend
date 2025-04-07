@@ -54,7 +54,7 @@ const Navbar = () => {
 
         <ul className="flex items-center justify-center gap-4 text-teal-200">
           <Link to="/">
-            <li className="hover:underline hover:text-teal-400">Home</li>
+            <li className="hidden sm:block hover:underline hover:text-teal-400">Home</li>
           </Link>
 
           {isAuthenticated ? (
@@ -63,7 +63,7 @@ const Navbar = () => {
                 <img
                   src={userDetails.user.profile}
                   alt="user profile"
-                  className=" border rounded-full w-10 border-gray-100  text-teal-400"
+                  className=" border rounded-full w-8 sm:w-10 border-gray-100  text-teal-400"
                 />
               </Link>
 
@@ -89,7 +89,6 @@ const Navbar = () => {
           )}
           <button
             onClick={() => {
-              console.log("Hamburger Clicked");
               dispatch(toggleSmallScreenSidebar());
             }}
             className=" text-white sm:hidden hover:border-gray-200 p-2 hover:bg-gray-700 cursor-pointer hover:text-white rounded-full"
