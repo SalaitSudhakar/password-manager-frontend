@@ -1,19 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from 'axios';
-
-axios.defaults.withCredentials = true; // To handle cookie automatically
+import api from "../../services/axiosConfig.js";
 
 export const isUserAuthenticated = createAsyncThunk(
-  "user/isAuthenticated", 
-  async(_, { rejectedWithValue }) => {
+  "user/isAuthenticated",
+  async (_, { rejectedWithValue }) => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/isAuthenticated`);
+      const response = await api.get("/auth/isAuthenticated");
       return response.data; //Return user details if authenticated
     } catch (error) {
-      return rejectedWithValue(error.response?.data || "Authentication Failed")
+      return rejectedWithValue(error.response?.data || "Authentication Failed");
     }
   }
-)
+);
 
 const initialState = {
   error: null,
@@ -23,56 +21,57 @@ const initialState = {
   userDetails: null,
 };
 
+// Reusable function to update loading & error state
+const setLoadingState = (state, isLoading = true, error = null) => {
+  state.isLoading = isLoading;
+  state.error = error;
+};
+
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    loginStart: (state) => {
-      state.isLoading = true;
-      state.error = null;
-    },
-    loginSuccess: (state, action) => {
-      state.isLoading = false;
-      state.userDetails = action.payload;
-      state.error = null;
-    },
-    loginFail: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
     setEmailVerified: (state) => {
       state.isEmailVerified = true;
     },
-    logoutStart: (state) => {
-      state.isLoading = true;
-      state.error = false;
+    apiRequestStart: (state) => setLoadingState(state),
+    apiRequestFail: (state, action) => {
+      setLoadingState(
+        state,
+        false,
+        action.payload?.error || "Something Went Wrong"
+      );
+    },
+    apiRequestSuccess: (state, action) => {
+      console.log(action);
+      state.userDetails = action.payload;
+      setLoadingState(state, false);
     },
     logoutSuccess: (state) => {
-      state.isLoading = false;
-      state.error = false;
       state.isAuthenticated = false;
       state.userDetails = null;
+      setLoadingState(state, false);
     },
-    logoutFail: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    }
   },
   extraReducers: (builder) => {
     builder
       .addCase(isUserAuthenticated.fulfilled, (state, action) => {
-        state.isAuthenticated = true,
-        state.userDetails = action.payload
+        (state.isAuthenticated = true), (state.userDetails = action.payload);
       })
 
       .addCase(isUserAuthenticated.rejected, (state) => {
         state.isAuthenticated = false;
         state.userDetails = null;
-      })
-  }
+      });
+  },
 });
 
-export const { loginStart, loginSuccess, loginFail, setEmailVerified, logoutStart, logoutSuccess, logoutFail } =
-  userSlice.actions;
+export const {
+  setEmailVerified,
+  apiRequestStart,
+  apiRequestSuccess,
+  apiRequestFail,
+  logoutSuccess,
+} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -2,22 +2,24 @@ import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import OAuth from "../Components/OAuth";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { loginFail, loginStart, loginSuccess } from "../Redux/Slice/userSlice";
 import ClipLoader from "react-spinners/ClipLoader";
+import api from "../services/axiosConfig";
+import {
+  apiRequestFail,
+  apiRequestStart,
+  apiRequestSuccess,
+} from "../Redux/Slice/userSlice";
 
 const Login = () => {
   const [formData, setFormData] = useState({}); // To collect Form datas
   const [isLoginBtnClicked, setIsLoginBtnClicked] = useState(false); // To track login btn click ( to provide separate loading for login btn and google btn)
   const { isLoading, error } = useSelector((state) => state.user); // Get state from user slice
   const [showPassword, setShowPassword] = useState(false); // To show/hide password
- 
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  axios.defaults.withCredentials = true; // to handle cookie
 
   // Handle form data change
   const handleChange = (e) => {
@@ -33,21 +35,18 @@ const Login = () => {
     }
     try {
       setIsLoginBtnClicked(true);
-      dispatch(loginStart());
+      dispatch(apiRequestStart());
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
-        formData
-      );
+      const response = await api.post("/auth/login", formData);
 
       const data = response.data;
 
-      dispatch(loginSuccess(data));
+      dispatch(apiRequestSuccess(data));
       toast.success(data.message);
       setIsLoginBtnClicked(false);
       navigate("/");
     } catch (error) {
-      dispatch(loginFail(error));
+      dispatch(apiRequestFail(error));
       setIsLoginBtnClicked(false);
       toast.error(
         error?.response?.data.message || "An error occurred, Try again!"
@@ -124,7 +123,7 @@ const Login = () => {
             disabled={isLoading}
             className="group mt-3 bg-gradient-to-r from-teal-500 to-teal-700 p-3 rounded-lg text-white font-semibold transition-all duration-300 hover:from-teal-600 hover:to-teal-800 transform hover:scale-105 shadow-md hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none"
           >
-            {(isLoading && isLoginBtnClicked) ? (
+            {isLoading && isLoginBtnClicked ? (
               <span className="flex justify-center items-center gap-2">
                 <span>Loading</span> <ClipLoader color={"#A7F3D0"} size={25} />
               </span>

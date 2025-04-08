@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -10,7 +9,9 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState(null);
   const { isLoading, error } = useSelector((state) => state.user); // Get state from user slice
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+
+  };
   return (
     <>
       <Helmet>

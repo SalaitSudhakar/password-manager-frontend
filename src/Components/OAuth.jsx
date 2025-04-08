@@ -4,13 +4,14 @@ import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  loginFail,
-  loginStart,
-  loginSuccess,
-} from "../Redux/Slice/userSlice.js";
 import { toast } from "react-toastify";
 import ClipLoader from "react-spinners/ClipLoader.js";
+import api from "../services/axiosConfig.js";
+import {
+  apiRequestFail,
+  apiRequestStart,
+  apiRequestSuccess,
+} from "../Redux/Slice/userSlice.js";
 
 const OAuth = () => {
   const [isGoogleBtnClicked, setIsGoogleBtnClicked] = useState(false); // To track Google btn click ( to provide separate loading for login btn and google btn)
@@ -18,12 +19,10 @@ const OAuth = () => {
   const navigate = useNavigate();
   const { isLoading } = useSelector((state) => state.user);
 
-  axios.defaults.withCredentials = true;
-
   const handleGoogleClick = async () => {
     try {
       setIsGoogleBtnClicked(true);
-      dispatch(loginStart());
+      dispatch(apiRequestStart());
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
 
@@ -35,22 +34,18 @@ const OAuth = () => {
         profile: result.user.photoURL,
       };
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/google`,
-
-        userData
-      );
+      const response = await api.post("/auth/google", userData);
 
       console.log(response);
       const data = response.data;
 
-      dispatch(loginSuccess(data));
+      dispatch(apiRequestSuccess(data));
       setIsGoogleBtnClicked(false);
       toast.success(data.message);
       navigate("/");
     } catch (error) {
       dispatch(
-        loginFail(
+        apiRequestFail(
           error?.response?.data?.message || "Something went wrong. Try again!"
         )
       );

@@ -5,13 +5,8 @@ import { FaBars, FaSignOutAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
-import {
-  isUserAuthenticated,
-  logoutFail,
-  logoutStart,
-  logoutSuccess,
-} from "../Redux/Slice/userSlice";
 import { toggleSmallScreenSidebar } from "../Redux/Slice/sidebarSlice";
+import { apiRequestFail, apiRequestStart, isUserAuthenticated, logoutSuccess } from "../Redux/Slice/userSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -23,7 +18,7 @@ const Navbar = () => {
   axios.defaults.withCredentials = true;
 
   const handleLogout = async () => {
-    dispatch(logoutStart());
+    dispatch(apiRequestStart());
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/auth/logout`
@@ -33,7 +28,7 @@ const Navbar = () => {
       dispatch(logoutSuccess());
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went Wrong");
-      dispatch(logoutFail());
+      dispatch(apiRequestFail(error));
     }
   };
 

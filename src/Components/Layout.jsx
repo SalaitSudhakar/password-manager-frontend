@@ -40,7 +40,7 @@ const Layout = () => {
             : "sm:ml-12 md:ml-16"
         }`}
       >
-        <main className="p-4">
+        <main>
           <Outlet /> {/* This renders the matched route component */}
         </main>
       </div>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { FaInfoCircle, FaLock } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -13,6 +14,10 @@ const PageNotFound = () => {
 
   return (
     <>
+    <Helmet>
+        <title>404 Page Not Found - SafePass</title>
+      </Helmet>
+
       <div
         className={`bg-gray-50 min-h-screen flex items-center justify-center p-4 ${
           isLoaded ? "opacity-100" : "opacity-0"

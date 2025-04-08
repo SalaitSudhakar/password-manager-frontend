@@ -5,7 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { loginFail, loginStart, loginSuccess } from "../Redux/Slice/userSlice";
+import api from "../services/axiosConfig";
+import {
+  apiRequestFail,
+  apiRequestStart,
+  apiRequestSuccess,
+} from "../Redux/Slice/userSlice";
 
 const Register = () => {
   const [formData, setFormData] = useState({});
@@ -15,36 +20,29 @@ const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  axios.defaults.withCredentials = true; // to handle cookie
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginStart());
+    dispatch(apiRequestStart());
 
     if (!formData || !formData.name || !formData.email || !formData.password) {
       toast.error("Name, Email and Password are required");
     }
     try {
-      setIsRegisterBtnClicked(true);
-
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/register`,
-        formData
-      );
+      const response = await api.post("/auth/register", formData);
 
       const data = response.data;
 
       console.log(data);
-      dispatch(loginSuccess(data));
+      dispatch(apiRequestSuccess(data));
       setIsRegisterBtnClicked(false);
       toast.success(data.message);
       navigate("/");
     } catch (error) {
-      dispatch(loginFail(error));
+      dispatch(apiRequestFail(error));
       setIsRegisterBtnClicked(false);
       toast.error(
         error?.response?.data.message || "An error occurred, Try again!"
@@ -130,15 +128,16 @@ const Register = () => {
           )}
 
           <button
+            onClick={() => setIsRegisterBtnClicked(true)}
             disabled={isLoading}
             className="group mt-3 bg-gradient-to-r from-teal-500 to-teal-700 p-3 rounded-lg text-white font-semibold transition-all duration-300 hover:from-teal-600 hover:to-teal-800 transform hover:scale-105 shadow-md hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none"
           >
-            {isLoading ? (
+            {isRegisterBtnClicked && isLoading ? (
               <span className="flex justify-center items-center gap-2">
                 <span>Loading</span> <ClipLoader color={"#A7F3D0"} size={25} />
               </span>
             ) : (
-              "Login"
+              "Register"
             )}
           </button>
 
