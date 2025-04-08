@@ -30,7 +30,7 @@ const Navbar = () => {
       );
 
       toast.success(response?.data?.message || "Logout Successful");
-      dispatch(logoutSuccess);
+      dispatch(logoutSuccess());
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went Wrong");
       dispatch(logoutFail());
@@ -52,7 +52,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <ul className="flex items-center justify-center gap-4 text-teal-200">
+        <ul className="flex items-center justify-center gap-4 sm:gap-8 text-teal-200">
           <Link to="/">
             <li className="hidden sm:block hover:underline hover:text-teal-400">Home</li>
           </Link>
@@ -63,7 +63,7 @@ const Navbar = () => {
                 <img
                   src={userDetails.user.profile}
                   alt="user profile"
-                  className=" border rounded-full w-8 sm:w-10 border-gray-100  text-teal-400"
+                  className=" border-2 rounded-full w-8 sm:w-10 border-teal-400  text-teal-400"
                 />
               </Link>
 

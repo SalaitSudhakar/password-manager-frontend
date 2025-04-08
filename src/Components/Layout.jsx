@@ -8,8 +8,9 @@ import SmallScreenSidebar from "./SmallScreenSidebar.jsx";
 const Layout = () => {
   const { isSidebarOpen } = useSelector((state) => state.sidebar);
   const location = useLocation();
-  const hideLayout =
-    location.pathname === "/login" || location.pathname === "/register";
+
+  const hide = ["/login", "/register", "/forgot-password", "/reset-password"];
+  const hideLayout = hide.includes(location.pathname);
 
   return (
     <div>

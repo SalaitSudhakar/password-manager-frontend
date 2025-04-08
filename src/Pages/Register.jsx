@@ -9,6 +9,7 @@ import { loginFail, loginStart, loginSuccess } from "../Redux/Slice/userSlice";
 
 const Register = () => {
   const [formData, setFormData] = useState({});
+  const [isRegisterBtnClicked, setIsRegisterBtnClicked] = useState(false);
   const { isLoading, error } = useSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -28,6 +29,8 @@ const Register = () => {
       toast.error("Name, Email and Password are required");
     }
     try {
+      setIsRegisterBtnClicked(true);
+
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/auth/register`,
         formData
@@ -37,10 +40,12 @@ const Register = () => {
 
       console.log(data);
       dispatch(loginSuccess(data));
+      setIsRegisterBtnClicked(false);
       toast.success(data.message);
       navigate("/");
     } catch (error) {
       dispatch(loginFail(error));
+      setIsRegisterBtnClicked(false);
       toast.error(
         error?.response?.data.message || "An error occurred, Try again!"
       );
@@ -128,7 +133,13 @@ const Register = () => {
             disabled={isLoading}
             className="group mt-3 bg-gradient-to-r from-teal-500 to-teal-700 p-3 rounded-lg text-white font-semibold transition-all duration-300 hover:from-teal-600 hover:to-teal-800 transform hover:scale-105 shadow-md hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none"
           >
-            Register
+            {isLoading ? (
+              <span className="flex justify-center items-center gap-2">
+                <span>Loading</span> <ClipLoader color={"#A7F3D0"} size={25} />
+              </span>
+            ) : (
+              "Login"
+            )}
           </button>
 
           <div className="flex items-center my-2">

@@ -53,9 +53,9 @@ const userSlice = createSlice({
       state.isAuthenticated = false;
       state.userDetails = null;
     },
-    logoutFail: (state) => {
+    logoutFail: (state, action) => {
       state.isLoading = false;
-      state.error = false;
+      state.error = action.payload;
     }
   },
   extraReducers: (builder) => {

@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { toggleSmallScreenSidebar } from "../Redux/Slice/sidebarSlice";
 import { FaHome, FaLock, FaUser } from "react-icons/fa";
 import { LuLogIn } from "react-icons/lu";
-import { MdClose } from 'react-icons/md'
+import { MdClose } from "react-icons/md";
 
 const SmallScreenSidebar = () => {
   const dispatch = useDispatch();
@@ -13,9 +13,11 @@ const SmallScreenSidebar = () => {
   const { isAuthenticated } = useSelector((state) => state.user);
   const { isSmallScreenSidebarOpen } = useSelector((state) => state.sidebar);
 
-  // Hide sidebar on login and register pages
-  if (location.pathname === "/login" || location.pathname === "/register") {
-    return null;
+  const hide = ["/login", "/register", "/forgot-password", "/reset-password"];
+
+  // Hide sidebar on specific pages
+  if (hide.includes(location.pathname)) {
+    return null; // This will prevent rendering the sidebar
   }
 
   const menuItems = [];
@@ -44,9 +46,7 @@ const SmallScreenSidebar = () => {
       <div
         onClick={handleOverlayClick}
         className={`fixed inset-0 bg-black/10 bg-opacity-40 z-40 transition-opacity duration-300 ease-in-out ${
-          isSmallScreenSidebarOpen
-            ? "opacity-100 visible"
-            : "opacity-0 invisible"
+          isSmallScreenSidebarOpen ? "opacity-100 block" : "opacity-0 hidden"
         }`}
       ></div>
 
@@ -58,8 +58,15 @@ const SmallScreenSidebar = () => {
       >
         <div className="flex justify-between items-center p-4 bg-teal-700">
           <h2 className="text-xl font-bold text-teal-50">Menu</h2>
-          <button onClick={handleHamburgerClick} className="p-2  text-gray rounded-full hover:bg-gray-700 transition-colors duration-100">
-            <MdClose size={24} title="close-icon" className="text-gray-200 font-bold"/>{" "}
+          <button
+            onClick={handleHamburgerClick}
+            className="p-2  text-gray rounded-full hover:bg-gray-700 transition-colors duration-100"
+          >
+            <MdClose
+              size={24}
+              title="close-icon"
+              className="text-gray-200 font-bold"
+            />{" "}
           </button>
         </div>
 

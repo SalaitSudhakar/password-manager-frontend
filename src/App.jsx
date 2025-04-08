@@ -14,33 +14,51 @@ import { isUserAuthenticated } from "./Redux/Slice/userSlice.js";
 import ForgotPassword from "./Pages/ForgotPassword";
 import ResetPassword from "./Pages/ResetPassword";
 import VerifyEmail from "./Pages/VerifyEmail";
+import PageNotFound from "./Pages/PageNotFound.jsx";
+import ProtectedRoute from "./Components/ProtectedRoute.jsx";
+import AuthGuard from "./Components/AuthGuard.jsx";
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(isUserAuthenticated());
-  }, [dispatch])
+  }, [dispatch]);
 
   return (
     <div className="relative">
       <BrowserRouter>
         <ToastContainer />
         <Routes>
-          {/* Routes with Layout */}
-           <Route element={<Layout />}> 
-            <Route path="/" element={<Home />} />
-            <Route path="/passwords" element={<PasswordList />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-           <Route path="/verify-email" element={<VerifyEmail />} />
+          {/* Routes with Layout of sidebar and navbar*/}
+          <Route element={<Layout />}>
+            <Route
+              element={<ProtectedRoute allowedRoles={["user", "admin"]} />}
+            >
+              <Route path="/" element={<Home />} />
+              <Route path="/passwords" element={<PasswordList />} />
+              <Route path="/profile" element={<Profile />} />
+            </Route>
 
-            {/* Routes without Layout */}
-             <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} /> 
-           </Route> 
+            <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+              <Route path="/admin" element={<AdminDashboard />} />
+            </Route>
+
+            <Route element={<ProtectedRoute allowedRoles={["user"]} />}>
+              <Route path="/verify-email" element={<VerifyEmail />} />
+            </Route>
+
+            {/* Routes only without sidebar layout */}
+            {/* To protect the loggedin user to  */}
+            <Route element={<AuthGuard />}>
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+            </Route>
+          </Route>
+          {/* to handle the page that is not available */}
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
     </div>

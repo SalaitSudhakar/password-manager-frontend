@@ -6,28 +6,35 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { loginFail, loginStart, loginSuccess } from "../Redux/Slice/userSlice";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Login = () => {
-  const [formData, setFormData] = useState({});
-  const { isLoading, error } = useSelector((state) => state.user);
-  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({}); // To collect Form datas
+  const [isLoginBtnClicked, setIsLoginBtnClicked] = useState(false); // To track login btn click ( to provide separate loading for login btn and google btn)
+  const { isLoading, error } = useSelector((state) => state.user); // Get state from user slice
+  const [showPassword, setShowPassword] = useState(false); // To show/hide password
+ 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   axios.defaults.withCredentials = true; // to handle cookie
 
+  // Handle form data change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginStart());
 
     if (!formData || !formData.email || !formData.password) {
       toast.error("Email and Password are required");
     }
     try {
+      setIsLoginBtnClicked(true);
+      dispatch(loginStart());
+
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
         formData
@@ -35,16 +42,16 @@ const Login = () => {
 
       const data = response.data;
 
-      console.log(data);
       dispatch(loginSuccess(data));
       toast.success(data.message);
+      setIsLoginBtnClicked(false);
       navigate("/");
     } catch (error) {
       dispatch(loginFail(error));
+      setIsLoginBtnClicked(false);
       toast.error(
         error?.response?.data.message || "An error occurred, Try again!"
       );
-     
     }
   };
   return (
@@ -108,12 +115,22 @@ const Login = () => {
 
           {error && (
             <p className="text-red-700 text-sm text-center my-1 ">
-              {error?.response?.data?.message || "Something Went Wrong. Try Again"}
+              {error?.response?.data?.message ||
+                "Something Went Wrong. Try Again"}
             </p>
           )}
 
-          <button disabled={isLoading} className="group mt-3 bg-gradient-to-r from-teal-500 to-teal-700 p-3 rounded-lg text-white font-semibold transition-all duration-300 hover:from-teal-600 hover:to-teal-800 transform hover:scale-105 shadow-md hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none">
-            Login
+          <button
+            disabled={isLoading}
+            className="group mt-3 bg-gradient-to-r from-teal-500 to-teal-700 p-3 rounded-lg text-white font-semibold transition-all duration-300 hover:from-teal-600 hover:to-teal-800 transform hover:scale-105 shadow-md hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none"
+          >
+            {(isLoading && isLoginBtnClicked) ? (
+              <span className="flex justify-center items-center gap-2">
+                <span>Loading</span> <ClipLoader color={"#A7F3D0"} size={25} />
+              </span>
+            ) : (
+              "Login"
+            )}
           </button>
 
           <div className="flex items-center my-2">
