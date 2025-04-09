@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import OAuth from "../Components/OAuth";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../services/axiosConfig";
@@ -153,7 +153,7 @@ const Register = () => {
         <div className="mt-6 text-gray-600">
           <p>
             Already have an account?
-            <Link to="/register">
+            <Link to="/login">
               <span className="text-teal-600 font-medium ml-2 hover:text-teal-800 transition-colors duration-300">
                 Login
               </span>

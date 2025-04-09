@@ -13,7 +13,7 @@ const SmallScreenSidebar = () => {
   const { isAuthenticated } = useSelector((state) => state.user);
   const { isSmallScreenSidebarOpen } = useSelector((state) => state.sidebar);
 
-  const hide = ["/login", "/register", "/forgot-password", "/reset-password"];
+  const hide = ["/login", "/register", "/forgot-password", "/reset-password", "/verify-email"];
 
   // Hide sidebar on specific pages
   if (hide.includes(location.pathname)) {

@@ -9,7 +9,7 @@ const Layout = () => {
   const { isSidebarOpen } = useSelector((state) => state.sidebar);
   const location = useLocation();
 
-  const hide = ["/login", "/register", "/forgot-password", "/reset-password"];
+  const hide = ["/login", "/register", "/forgot-password", "/reset-password", "/verify-email"];
   const hideLayout = hide.includes(location.pathname);
 
   return (

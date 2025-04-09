@@ -44,10 +44,6 @@ const App = () => {
               <Route path="/admin" element={<AdminDashboard />} />
             </Route>
 
-            <Route element={<ProtectedRoute allowedRoles={["user"]} />}>
-              <Route path="/verify-email" element={<VerifyEmail />} />
-            </Route>
-
             {/* Routes only without sidebar layout */}
             {/* To protect the loggedin user to  */}
             <Route element={<AuthGuard />}>
@@ -55,6 +51,7 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/verify-email" element={<VerifyEmail />} />
             </Route>
           </Route>
           {/* to handle the page that is not available */}

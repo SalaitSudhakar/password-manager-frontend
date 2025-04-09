@@ -3,12 +3,13 @@ import api from "../../services/axiosConfig.js";
 
 export const isUserAuthenticated = createAsyncThunk(
   "user/isAuthenticated",
-  async (_, { rejectedWithValue }) => {
+  async (_, { rejectWithValue }) => {
+    // ✅ Fixed the typo
     try {
       const response = await api.get("/auth/isAuthenticated");
-      return response.data; //Return user details if authenticated
+      return response.data; // ✅ Returns user details if authenticated
     } catch (error) {
-      return rejectedWithValue(error.response?.data || "Authentication Failed");
+      return rejectWithValue(error.response?.data || "Authentication Failed"); // ✅ Corrected function name
     }
   }
 );
@@ -34,12 +35,15 @@ const userSlice = createSlice({
     setEmailVerified: (state) => {
       state.isEmailVerified = true;
     },
+    resetLoadingstate: () => {
+      setLoadingState(false);
+    },
     apiRequestStart: (state) => setLoadingState(state),
     apiRequestFail: (state, action) => {
       setLoadingState(
         state,
         false,
-        action.payload?.error || "Something Went Wrong"
+        action.payload || "Something Went Wrong"
       );
     },
     apiRequestSuccess: (state, action) => {
@@ -72,6 +76,7 @@ export const {
   apiRequestSuccess,
   apiRequestFail,
   logoutSuccess,
+  resetLoadingstate
 } = userSlice.actions;
 
 export default userSlice.reducer;

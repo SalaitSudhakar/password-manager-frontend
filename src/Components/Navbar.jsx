@@ -1,15 +1,17 @@
 import React, { useEffect } from "react";
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaSignOutAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { toggleSmallScreenSidebar } from "../Redux/Slice/sidebarSlice";
 import { apiRequestFail, apiRequestStart, isUserAuthenticated, logoutSuccess } from "../Redux/Slice/userSlice";
+import api from "../services/axiosConfig";
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const { isAuthenticated, userDetails } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -17,12 +19,14 @@ const Navbar = () => {
   });
   axios.defaults.withCredentials = true;
 
-  const handleLogout = async () => {
+  const PathTohide = ['/login', '/register', '/forgot-password', '/reset-password', '/verify-email'];
+  const hideHamburger = PathTohide.includes(location.pathname);
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
     dispatch(apiRequestStart());
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/logout`
-      );
+      const response = await api.post('/auth/logout')
 
       toast.success(response?.data?.message || "Logout Successful");
       dispatch(logoutSuccess());
@@ -56,7 +60,7 @@ const Navbar = () => {
             <>
               <Link to="/profile">
                 <img
-                  src={userDetails.user.profile}
+                  src={userDetails?.user?.profile}
                   alt="user profile"
                   className=" border-2 rounded-full w-8 sm:w-10 border-teal-400  text-teal-400"
                 />
@@ -86,8 +90,7 @@ const Navbar = () => {
             onClick={() => {
               dispatch(toggleSmallScreenSidebar());
             }}
-            className=" text-white sm:hidden hover:border-gray-200 p-2 hover:bg-gray-700 cursor-pointer hover:text-white rounded-full"
-          >
+            className={` ${hideHamburger ? 'hidden' : 'block'} text-white sm:hidden hover:border-gray-200 p-2 hover:bg-gray-700 cursor-pointer hover:text-white rounded-full`} >
             <FaBars />
           </button>
         </ul>
