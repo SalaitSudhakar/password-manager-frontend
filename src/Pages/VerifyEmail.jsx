@@ -5,15 +5,17 @@ import api from "../services/axiosConfig";
 import {
   apiRequestFail,
   apiRequestStart,
-  resetLoadingstate,
-  setEmailVerified,
+  apiRequestSuccess,
 } from "../Redux/Slice/userSlice";
+import ClipLoader from "react-spinners/ClipLoader";
+import { useNavigate } from "react-router-dom";
 
 const VerifyEmail = () => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const inputRefs = useRef([]);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { isLoading, error } = useSelector((state) => state.user);
 
@@ -62,29 +64,29 @@ const VerifyEmail = () => {
 
     const newOtp = otp.join("");
 
+    console.log("newOtp", newOtp);
     try {
       dispatch(apiRequestStart());
-      const response = await api.post("/auth/verify-email", { newOtp });
+      const response = await api.post("/auth/verify-email", { otp: newOtp });
 
       const data = response.data;
 
-      dispatch(setEmailVerified());
-      dispatch(resetLoadingstate());
+      dispatch(apiRequestSuccess(data));
       toast.success(data.message);
+      navigate("/");
     } catch (error) {
       dispatch(apiRequestFail(error));
       toast.error(
-        error?.response?.data?.error || "An error occurred. Try Again!"
+        error?.response?.data?.message || "An error occurred. Try Again!"
       );
     }
-
-    console.log(otp);
   };
 
   return (
     <div className="flex flex-col items-center mt-10 min-h-screen p-6 ">
       <div className="bg-teal-150 p-6 rounded-lg shadow-lg shadow-teal-200 transition-transform transform translate-x-0">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">Enter OTP</h2>
+        <h2 className="text-xl font-semibold text-teal-700">Enter OTP</h2>
+        <p className="text-gray-600 mt-1 mb-4">Go and Check Your Email for verification OTP</p>
         <form
           onSubmit={handleOtpSubmit}
           onPaste={handlePaste}

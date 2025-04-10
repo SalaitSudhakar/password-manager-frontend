@@ -11,9 +11,7 @@ import {
   apiRequestStart,
   apiRequestSuccess,
 } from "../Redux/Slice/userSlice";
-import Model from "../Components/Model";
 
-console.log("Login");
 const Login = () => {
   const [formData, setFormData] = useState({}); // To collect Form datas
   const [isLoginBtnClicked, setIsLoginBtnClicked] = useState(false); // To track login btn click ( to provide separate loading for login btn and google btn)
@@ -51,7 +49,7 @@ const Login = () => {
       dispatch(apiRequestFail(error));
       setIsLoginBtnClicked(false);
       toast.error(
-        error?.response?.data.message || "An error occurred, Try again!"
+        error?.response?.data?.message || "An error occurred, Try again!"
       );
     }
   };

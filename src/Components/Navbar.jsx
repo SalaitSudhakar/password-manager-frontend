@@ -1,23 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import logo from "../assets/logo.png";
 import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaSignOutAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+
 import { toast } from "react-toastify";
 import { toggleSmallScreenSidebar } from "../Redux/Slice/sidebarSlice";
-import { apiRequestFail, apiRequestStart, isUserAuthenticated, logoutSuccess } from "../Redux/Slice/userSlice";
+import { apiRequestFail, apiRequestStart, logoutSuccess } from "../Redux/Slice/userSlice";
 import api from "../services/axiosConfig";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { isAuthenticated, userDetails } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    dispatch(isUserAuthenticated());
-  });
-  axios.defaults.withCredentials = true;
 
   const PathTohide = ['/login', '/register', '/forgot-password', '/reset-password', '/verify-email'];
   const hideHamburger = PathTohide.includes(location.pathname);

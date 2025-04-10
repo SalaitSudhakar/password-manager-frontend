@@ -1,15 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../services/axiosConfig.js";
 
-export const isUserAuthenticated = createAsyncThunk(
+export const authState = createAsyncThunk(
   "user/isAuthenticated",
   async (_, { rejectWithValue }) => {
-    // ✅ Fixed the typo
     try {
       const response = await api.get("/auth/isAuthenticated");
       return response.data; // ✅ Returns user details if authenticated
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Authentication Failed"); // ✅ Corrected function name
+      return rejectWithValue(error.response?.data || "Authentication Failed"); 
     }
   }
 );
@@ -17,7 +16,6 @@ export const isUserAuthenticated = createAsyncThunk(
 const initialState = {
   error: null,
   isLoading: false,
-  isEmailVerified: false,
   isAuthenticated: false,
   userDetails: null,
 };
@@ -32,19 +30,12 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setEmailVerified: (state) => {
-      state.isEmailVerified = true;
-    },
-    resetLoadingstate: () => {
-      setLoadingState(false);
+    resetLoadingstate: (state) => {
+      setLoadingState(state, false);
     },
     apiRequestStart: (state) => setLoadingState(state),
     apiRequestFail: (state, action) => {
-      setLoadingState(
-        state,
-        false,
-        action.payload || "Something Went Wrong"
-      );
+      setLoadingState(state, false, action.payload);
     },
     apiRequestSuccess: (state, action) => {
       console.log(action);
@@ -59,11 +50,14 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(isUserAuthenticated.fulfilled, (state, action) => {
-        (state.isAuthenticated = true), (state.userDetails = action.payload);
+      .addCase(authState.fulfilled, (state, action) => {
+         // ✅ Prevents re-updating the state
+          state.isAuthenticated = !!action.payload || true;
+          state.userDetails = action.payload;
+        
       })
 
-      .addCase(isUserAuthenticated.rejected, (state) => {
+      .addCase(authState.rejected, (state) => {
         state.isAuthenticated = false;
         state.userDetails = null;
       });
@@ -76,7 +70,7 @@ export const {
   apiRequestSuccess,
   apiRequestFail,
   logoutSuccess,
-  resetLoadingstate
+  resetLoadingstate,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -9,21 +9,25 @@ import Login from "./Pages/Login";
 import Layout from "./Components/Layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useDispatch } from "react-redux";
-import { isUserAuthenticated } from "./Redux/Slice/userSlice.js";
 import ForgotPassword from "./Pages/ForgotPassword";
 import ResetPassword from "./Pages/ResetPassword";
 import VerifyEmail from "./Pages/VerifyEmail";
 import PageNotFound from "./Pages/PageNotFound.jsx";
 import ProtectedRoute from "./Components/ProtectedRoute.jsx";
 import AuthGuard from "./Components/AuthGuard.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { authState } from "./Redux/Slice/userSlice.js";
 
 const App = () => {
   const dispatch = useDispatch();
+  const { isAuthenticated, userDetails } = useSelector((state) => state.user);
+  const emailVerified = userDetails?.user?.emailVerified || false;
 
   useEffect(() => {
-    dispatch(isUserAuthenticated());
-  }, [dispatch]);
+    if (!isAuthenticated || !emailVerified) {
+      dispatch(authState())
+    };
+  }, [dispatch, isAuthenticated, emailVerified]);
 
   return (
     <div className="relative">

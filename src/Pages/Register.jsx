@@ -10,13 +10,16 @@ import {
   apiRequestFail,
   apiRequestStart,
   apiRequestSuccess,
+  resetLoadingstate,
 } from "../Redux/Slice/userSlice";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Register = () => {
   const [formData, setFormData] = useState({});
   const [isRegisterBtnClicked, setIsRegisterBtnClicked] = useState(false);
   const { isLoading, error } = useSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -24,29 +27,54 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const sendOtp = async () => {
+    toast.loading("Sending OTP..."); // Show loading toast
+    
+    try {
+      dispatch(apiRequestStart());
+  
+      const response = await api.post("/auth/send-otp");
+      const data = response.data;
+  
+      toast.dismiss(); // Remove loading toast
+      toast.success(data.message); // Show success toast
+  
+      dispatch(resetLoadingstate());
+      navigate("/verify-email");
+    } catch (error) {
+      toast.dismiss(); // Remove loading toast in case of error
+  
+      toast.error(error.response?.data?.message || "An error occurred. Try Again!"); // Show error toast
+  
+      dispatch(apiRequestFail(error));
+    }
+  };
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(apiRequestStart());
 
     if (!formData || !formData.name || !formData.email || !formData.password) {
       toast.error("Name, Email and Password are required");
     }
+
+    dispatch(apiRequestStart());
     try {
       const response = await api.post("/auth/register", formData);
 
       const data = response.data;
 
-      console.log(data);
       dispatch(apiRequestSuccess(data));
-      setIsRegisterBtnClicked(false);
       toast.success(data.message);
-      navigate("/");
+
+      await sendOtp();
     } catch (error) {
       dispatch(apiRequestFail(error));
-      setIsRegisterBtnClicked(false);
       toast.error(
-        error?.response?.data.message || "An error occurred, Try again!"
+        error?.response?.data?.message || "An error occurred, Try again!"
       );
+    } finally {
+      setIsRegisterBtnClicked(false);
     }
   };
   return (
@@ -123,6 +151,7 @@ const Register = () => {
           {error && (
             <p className="text-red-700 text-sm text-center my-1 -mb-1.5">
               {error?.response?.data?.message ||
+                error.message ||
                 "Something Went Wrong. Try Again"}
             </p>
           )}
