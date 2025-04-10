@@ -38,7 +38,6 @@ const userSlice = createSlice({
       setLoadingState(state, false, action.payload);
     },
     apiRequestSuccess: (state, action) => {
-      console.log(action);
       state.userDetails = action.payload;
       setLoadingState(state, false);
     },

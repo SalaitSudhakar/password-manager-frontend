@@ -64,7 +64,6 @@ const VerifyEmail = () => {
 
     const newOtp = otp.join("");
 
-    console.log("newOtp", newOtp);
     try {
       dispatch(apiRequestStart());
       const response = await api.post("/auth/verify-email", { otp: newOtp });
