@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../services/axiosConfig.js";
 
 export const authState = createAsyncThunk(
-  "user/isAuthenticated",
+  "user/authState",
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.get("/auth/isAuthenticated");
@@ -58,7 +58,8 @@ const userSlice = createSlice({
       .addCase(authState.rejected, (state) => {
         state.isAuthenticated = false;
         state.userDetails = null;
-      });
+      })
+
   },
 });
 

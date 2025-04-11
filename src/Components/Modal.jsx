@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-function Modal({ isOpen, onClose, title, children }) {
+const Modal = ({ isOpen, onClose, handleClick , title, btnText, children }) => {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden"; // Prevent background scrolling
@@ -24,9 +24,9 @@ function Modal({ isOpen, onClose, title, children }) {
         <div className="mb-4">{children}</div>
         <button 
           className="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
-          onClick={onClose}
+          onClick={handleClick}
         >
-          Close
+          {btnText}
         </button>
       </div>
     </div>

@@ -25,8 +25,8 @@ const App = () => {
 
   useEffect(() => {
     if (!isAuthenticated || !emailVerified) {
-      dispatch(authState())
-    };
+      dispatch(authState());
+    }
   }, [dispatch, isAuthenticated, emailVerified]);
 
   return (
