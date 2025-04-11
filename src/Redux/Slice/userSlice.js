@@ -6,9 +6,9 @@ export const authState = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.get("/auth/isAuthenticated");
-      return response.data; // ✅ Returns user details if authenticated
+      return response.data; // ✅ set user details if authenticated
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Authentication Failed"); 
+      return rejectWithValue(error.response?.data || "Authentication Failed");
     }
   }
 );
@@ -50,10 +50,9 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(authState.fulfilled, (state, action) => {
-         // ✅ Prevents re-updating the state
-          state.isAuthenticated = !!action.payload || true;
-          state.userDetails = action.payload;
-        
+        // ✅ Prevents re-updating the state
+        state.isAuthenticated = !!action.payload;
+        state.userDetails = action.payload;
       })
 
       .addCase(authState.rejected, (state) => {
@@ -64,7 +63,6 @@ const userSlice = createSlice({
 });
 
 export const {
-  setEmailVerified,
   apiRequestStart,
   apiRequestSuccess,
   apiRequestFail,
