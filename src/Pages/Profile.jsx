@@ -136,9 +136,8 @@ const Profile = () => {
       setPasswordData({
         oldPassword: "",
         newPassword: "",
-        confirmPassword: ""
+        confirmPassword: "",
       });
-      
     } catch (error) {
       toast.error(
         error?.response?.data?.message || "Something Went Wrong. Try Again!"
@@ -154,17 +153,19 @@ const Profile = () => {
     e.preventDefault();
 
     try {
-      const response = await api.delete('/user/delete');
+      const response = await api.delete("/user/delete");
 
       const data = response.data;
 
       toast.success(data.message);
-      dispatch(logoutSuccess())
+      dispatch(logoutSuccess());
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something Went Wrong. Try Again!");
-      dispatch(apiRequestFail(error))
+      toast.error(
+        error?.response?.data?.message || "Something Went Wrong. Try Again!"
+      );
+      dispatch(apiRequestFail(error));
     }
-  }
+  };
   return (
     <>
       <Helmet>
@@ -486,10 +487,8 @@ const Profile = () => {
                 )}
               </button>
             </div>
-            
 
             {/* Modal */}
-           
 
             {/* MOve above */}
           </div>
