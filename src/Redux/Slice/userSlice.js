@@ -51,7 +51,7 @@ const userSlice = createSlice({
     builder
       .addCase(authState.fulfilled, (state, action) => {
         // ✅ Prevents re-updating the state
-        state.isAuthenticated = !!action.payload;
+        state.isAuthenticated = !!action.payload || true;
         state.userDetails = action.payload;
       })
 
