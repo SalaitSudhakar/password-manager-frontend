@@ -16,16 +16,16 @@ import PageNotFound from "./Pages/PageNotFound.jsx";
 import ProtectedRoute from "./Components/ProtectedRoute.jsx";
 import AuthGuard from "./Components/AuthGuard.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { authState } from "./Redux/Slice/userSlice.js";
+import { authState, resetLoadingstate } from "./Redux/Slice/userSlice.js";
+import Footer from "./Components/Footer.jsx";
 
 const App = () => {
   const dispatch = useDispatch();
   const { isAuthenticated, userDetails } = useSelector((state) => state.user);
   const emailVerified = userDetails?.user?.emailVerified || false;
 
-
   useEffect(() => {
-    if (!isAuthenticated || !emailVerified ) {
+    if (!isAuthenticated || !emailVerified) {
       dispatch(authState());
     }
   }, [dispatch, isAuthenticated, emailVerified]);
@@ -62,6 +62,8 @@ const App = () => {
           {/* to handle the page that is not available */}
           <Route path="*" element={<PageNotFound />} />
         </Routes>
+
+        <Footer />
       </BrowserRouter>
     </div>
   );

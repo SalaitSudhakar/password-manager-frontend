@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader.js";
 import { toast } from "react-toastify";
@@ -10,14 +10,14 @@ import {
 import api from "./../services/axiosConfig";
 import { FaPen } from "react-icons/fa";
 
-const UpdateProfileTab = ({ selectedTab }) => {
-  const { userDetails, isLoading, error } = useSelector((state) => state.user);
+const UpdateProfileTab = ({ selectedTab, profileData }) => {
+  const { isLoading, error } = useSelector((state) => state.user);
 
   const defaultProfile =
-    userDetails?.user?.profile ||
+    profileData?.user?.profile ||
     "https://ui-avatars.com/api/?name=User&background=random";
-  const defaultName = userDetails?.user?.name;
-  const defaultEmail = userDetails?.user?.email;
+  const defaultName = profileData?.user?.name;
+  const defaultEmail = profileData?.user?.email;
 
   const [profile, setProfile] = useState(null); // You cannot have default Profile here. You cannot use to change filt object into URL.CreateObject() in line 111.(img tag)
   const [name, setName] = useState(defaultName);
@@ -69,8 +69,6 @@ const UpdateProfileTab = ({ selectedTab }) => {
     }
   };
 
-  
-
   return (
     <>
       <div
@@ -85,15 +83,17 @@ const UpdateProfileTab = ({ selectedTab }) => {
         {/* Form */}
         <form className="flex flex-col" onSubmit={handleProfileUpdate}>
           <div className="flex items-center my-3 gap-2">
-            <img
-              src={profile ? URL.createObjectURL(profile) : defaultProfile}
-              alt="profile"
-              className="h-28 w-28 rounded-full"
-            />
+            <div className="border-2 border-teal-800 rounded-full ">
+              <img
+                src={profile ? URL.createObjectURL(profile) : defaultProfile}
+                alt="profile"
+                className="h-28 w-28 rounded-full "
+              />
+            </div>
 
             <div>
               <p className="text-2xl font-bold text-teal-800">
-                {userDetails?.user?.name}
+                {profileData?.user?.name}
               </p>
               <input
                 type="file"

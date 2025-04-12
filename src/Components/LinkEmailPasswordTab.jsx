@@ -10,7 +10,7 @@ import api from "../services/axiosConfig";
 import ClipLoader from "react-spinners/ClipLoader";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const LinkEmailPasswordTab = ({ selectedTab }) => {
+const LinkEmailPasswordTab = ({ selectedTab, onSuccess, setSelectedTab }) => {
   const [formData, setFormData] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -37,6 +37,9 @@ const LinkEmailPasswordTab = ({ selectedTab }) => {
 
       toast.success(res.data.message);
       dispatch(resetLoadingstate());
+      onSuccess();
+      setSelectedTab("password")
+      selectedTab = 'password';
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong.");
       dispatch(apiRequestFail(error));

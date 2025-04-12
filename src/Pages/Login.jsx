@@ -59,7 +59,7 @@ const Login = () => {
         <title>Login - SafePass</title>
       </Helmet>
 
-      <div className="px-3 sm:px-8 py-6 my-10 w-full sm:max-w-md mx-auto border border-teal-100  text-center bg-teal-50 rounded-xl shadow-lg shadow-emerald-300">
+      <div className="px-3 min-h-screen sm:px-8 py-6 my-10 w-full sm:max-w-md mx-auto border border-teal-100  text-center bg-teal-50 rounded-xl shadow-lg shadow-emerald-300">
         <h1 className="text-4xl text-teal-700 text-center font-bold mb-2">
           Welcome Back
         </h1>
@@ -124,7 +124,7 @@ const Login = () => {
             className="group mt-3 bg-gradient-to-r from-teal-500 to-teal-700 p-3 rounded-lg text-white font-semibold transition-all duration-300 hover:from-teal-600 hover:to-teal-800 transform hover:scale-105 shadow-md hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none"
           >
             {isLoading && isLoginBtnClicked ? (
-              <span className="flex justify-center items-center gap-2">
+              <span className="flex justify-center items-center gap-2 ">
                 <span>Loading</span> <ClipLoader color={"#A7F3D0"} size={25} />
               </span>
             ) : (

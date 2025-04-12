@@ -6,7 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { toast } from "react-toastify";
 import { toggleSmallScreenSidebar } from "../Redux/Slice/sidebarSlice";
-import { apiRequestFail, apiRequestStart, logoutSuccess } from "../Redux/Slice/userSlice";
+import {
+  apiRequestFail,
+  apiRequestStart,
+  logoutSuccess,
+} from "../Redux/Slice/userSlice";
 import api from "../services/axiosConfig";
 
 const Navbar = () => {
@@ -14,14 +18,20 @@ const Navbar = () => {
   const location = useLocation();
   const { isAuthenticated, userDetails } = useSelector((state) => state.user);
 
-  const PathTohide = ['/login', '/register', '/forgot-password', '/reset-password', '/verify-email'];
+  const PathTohide = [
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/reset-password",
+    "/verify-email",
+  ];
   const hideHamburger = PathTohide.includes(location.pathname);
 
   const handleLogout = async (e) => {
     e.preventDefault();
     dispatch(apiRequestStart());
     try {
-      const response = await api.post('/auth/logout')
+      const response = await api.post("/auth/logout");
 
       toast.success(response?.data?.message || "Logout Successful");
       dispatch(logoutSuccess());
@@ -48,14 +58,18 @@ const Navbar = () => {
 
         <ul className="flex items-center justify-center gap-4 sm:gap-8 text-teal-200">
           <Link to="/">
-            <li className="hidden sm:block hover:underline hover:text-teal-400">Home</li>
+            <li className="hidden sm:block hover:underline hover:text-teal-400">
+              Home
+            </li>
           </Link>
 
           {isAuthenticated ? (
             <>
               <Link to="/profile">
                 <img
-                  src={userDetails?.user?.profile}
+                  src={
+                    userDetails?.user?.profile 
+                  }
                   alt="user profile"
                   className=" border-2 rounded-full w-8 sm:w-10 border-teal-400  text-teal-400"
                 />
@@ -85,7 +99,10 @@ const Navbar = () => {
             onClick={() => {
               dispatch(toggleSmallScreenSidebar());
             }}
-            className={` ${hideHamburger ? 'hidden' : 'block'} text-white sm:hidden hover:border-gray-200 p-2 hover:bg-gray-700 cursor-pointer hover:text-white rounded-full`} >
+            className={` ${
+              hideHamburger ? "hidden" : "block"
+            } text-white sm:hidden hover:border-gray-200 p-2 hover:bg-gray-700 cursor-pointer hover:text-white rounded-full`}
+          >
             <FaBars />
           </button>
         </ul>
