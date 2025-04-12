@@ -148,6 +148,7 @@ const Profile = () => {
 
   /* Delete Tab */
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteConfirmed, setDeleteConfirmed] = useState(false);
 
   const hanldeDeleteAccount = async (e) => {
     e.preventDefault();
@@ -465,12 +466,6 @@ const Profile = () => {
                   <li>This action cannot be undone</li>
                 </ul>
               </div>
-              {error && (
-                <p className="text-red-700 text-sm text-center my-1 ">
-                  {error?.response?.data?.message ||
-                    "Something Went Wrong. Try Again"}
-                </p>
-              )}
 
               <button
                 disabled={isLoading}
@@ -489,6 +484,57 @@ const Profile = () => {
             </div>
 
             {/* Modal */}
+
+            <Modal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              title={"Confirm Delete Your Account"}
+            >
+              <div className="flex flex-col my-3">
+                <p className="text-gray-600 p-2">
+                  Are you sure You want to delete your account forever?
+                </p>
+
+                <form className="py-2 flex flex-col gap-3">
+                  <p>
+                    Type{" "}
+                    <span className="uppercase text-gray-800 p-2 mb-4 font-semibold bg-gray-400">
+                      Delete
+                    </span>{" "}
+                    in the below box
+                  </p>
+                  <input
+                    onChange={(e) => setDeleteConfirmed(e.target.value)}
+                    type="text"
+                    name="delete"
+                    required
+                    className="border p-2 w-full rounded-lg border-teal-700"
+                  />
+                </form>
+
+                {error && (
+                  <p className="text-red-700 text-sm text-center my-1 ">
+                    {error?.response?.data?.message ||
+                      "Something Went Wrong. Try Again"}
+                  </p>
+                )}
+
+                <button
+                  disabled={isLoading || deleteConfirmed !== "DELETE"}
+                  onClick={hanldeDeleteAccount}
+                  className="group mt-3 bg-gradient-to-r from-red-500 to-red-700 p-3 rounded-lg text-white font-semibold transition-all duration-300 hover:from-red-600 hover:to-red-800 transform hover:scale-105 shadow-md hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none"
+                >
+                  {isLoading ? (
+                    <span className="flex justify-center items-center gap-2">
+                      <span>Loading</span>{" "}
+                      <ClipLoader color={"#A7F3D0"} size={25} />
+                    </span>
+                  ) : (
+                    "Delete Account"
+                  )}
+                </button>
+              </div>
+            </Modal>
 
             {/* MOve above */}
           </div>
