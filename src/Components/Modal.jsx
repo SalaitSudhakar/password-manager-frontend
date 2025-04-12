@@ -21,7 +21,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
         className="bg-white  px-5 p-6 rounded-lg shadow-lg max-w-[350px] w-[96%] animate-fadeIn"
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
       >
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center">
           <h2 className="text-xl font-semibold  text-gray-800">{title}</h2>
           <button
             onClick={onClose}

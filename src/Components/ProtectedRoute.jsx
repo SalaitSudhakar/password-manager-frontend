@@ -10,8 +10,9 @@ const ProtectedRoute = ({ allowedRoles }) => {
   );
 
   const userRole = userDetails?.user?.role;
+  const emailVerified = userDetails?.user?.emailVerified;
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || !emailVerified) {
     return <Navigate to="/login" replace />;
   }
 

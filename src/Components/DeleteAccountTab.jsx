@@ -1,37 +1,41 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
-import { apiRequestFail, apiRequestStart, logoutSuccess } from "../Redux/Slice/userSlice";
+import {
+  apiRequestFail,
+  apiRequestStart,
+  logoutSuccess,
+} from "../Redux/Slice/userSlice";
 import api from "../services/axiosConfig";
 import { toast } from "react-toastify";
 import Modal from "../Components/Modal.jsx";
 import { FaTrash } from "react-icons/fa";
 
-const DeleteAccountTab = ({selectedTab}) => {
-    const {isLoading, error} = useSelector(state => state.user);
-    const dispatch = useDispatch();
+const DeleteAccountTab = ({ selectedTab }) => {
+  const { isLoading, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-     const [isModalOpen, setIsModalOpen] = useState(false);
-      const [deleteConfirmed, setDeleteConfirmed] = useState(false);
-    
-      const hanldeDeleteAccount = async (e) => {
-        e.preventDefault();
-    
-        try {
-            dispatch(apiRequestStart())
-          const response = await api.delete("/user/delete");
-    
-          const data = response.data;
-    
-          toast.success(data.message);
-          dispatch(logoutSuccess());
-        } catch (error) {
-          toast.error(
-            error?.response?.data?.message || "Something Went Wrong. Try Again!"
-          );
-          dispatch(apiRequestFail(error));
-        }
-      };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteConfirmed, setDeleteConfirmed] = useState(false);
+
+  const hanldeDeleteAccount = async (e) => {
+    e.preventDefault();
+
+    try {
+      dispatch(apiRequestStart());
+      const response = await api.delete("/user/delete");
+
+      const data = response.data;
+
+      toast.success(data.message);
+      dispatch(logoutSuccess());
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message || "Something Went Wrong. Try Again!"
+      );
+      dispatch(apiRequestFail(error));
+    }
+  };
 
   return (
     <>
@@ -44,23 +48,23 @@ const DeleteAccountTab = ({selectedTab}) => {
           <h1 className="text-xl  text-red-500 flex gap-3 items-center mb-5 ">
             <FaTrash size={20} className="" />{" "}
             <span className="font-bold">
-              Deleting Your Account is Permeanent
+              Deleting Your Account is Permanent
             </span>
           </h1>
           <p>
-            All your saved passwords will be deleted. You've can never been able
-            recover it.
+            All your saved passwords will be deleted. You can never recover it.
           </p>
         </div>
         <div className="flex gap-2 flex-col">
-          <h3 className="text-lg font-semibold text-teal-800 ">
+          <h3 className="text-lg font-semibold text-gray-700 ">
             Delete Your Account
           </h3>
           <p className="text-gray-600">
             Before you proceed, please take a moment to consider the
             consequences of account deletion:
           </p>
-          <ul className="list-disc pl-5 space-y-2 text-gray-600 mb-6">
+
+          <ul className="list-disc pl-4 space-y-2 text-gray-600 mb-6">
             <li>All your personal information will be erased</li>
             <li>Your saved passwords will be lost</li>
             <li>This action cannot be undone</li>
@@ -68,17 +72,10 @@ const DeleteAccountTab = ({selectedTab}) => {
         </div>
 
         <button
-          disabled={isLoading}
           onClick={() => setIsModalOpen(true)}
-          className="group mt-3 bg-gradient-to-r from-red-500 to-red-700 p-3 rounded-lg text-white font-semibold transition-all duration-300 hover:from-red-600 hover:to-red-800 transform hover:scale-105 shadow-md hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none"
+          className="group mt-3 bg-gradient-to-r from-red-500 to-red-700 p-3 rounded-lg text-white font-semibold transition-all duration-300 hover:from-red-600 hover:to-red-800 transform hover:scale-105 shadow-md hover:shadow-lg"
         >
-          {isLoading ? (
-            <span className="flex justify-center items-center gap-2">
-              <span>Loading</span> <ClipLoader color={"#A7F3D0"} size={25} />
-            </span>
-          ) : (
-            "Delete Account"
-          )}
+          Delete Account
         </button>
       </div>
 
@@ -89,8 +86,8 @@ const DeleteAccountTab = ({selectedTab}) => {
         onClose={() => setIsModalOpen(false)}
         title={"Confirm Delete Your Account"}
       >
-        <div className="flex flex-col my-3">
-          <p className="text-gray-600 p-2">
+        <div className="flex flex-col">
+          <p className="text-gray-600 py-2">
             Are you sure You want to delete your account forever?
           </p>
 
@@ -107,7 +104,7 @@ const DeleteAccountTab = ({selectedTab}) => {
               type="text"
               name="delete"
               required
-              className="border p-2 w-full rounded-lg border-teal-700"
+              className="border p-2 w-full text-gray-700 font-medium rounded-lg border-teal-700 focus:outline-teal-700"
             />
           </form>
 
