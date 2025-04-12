@@ -35,7 +35,6 @@ const OAuth = () => {
 
       const response = await api.post("/auth/google", userData);
 
-      console.log(response);
       const data = response.data;
 
       dispatch(apiRequestSuccess(data));
