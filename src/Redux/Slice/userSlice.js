@@ -13,6 +13,19 @@ export const authState = createAsyncThunk(
   }
 );
 
+// Get user Data
+export const getUserData = createAsyncThunk(
+  "user/authState",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/user/data");
+      return response.data; // ✅ set user details if authenticated
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Authentication Failed");
+    }
+  }
+);
+
 const initialState = {
   error: null,
   isLoading: false,

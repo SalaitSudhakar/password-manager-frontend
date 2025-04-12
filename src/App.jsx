@@ -23,8 +23,9 @@ const App = () => {
   const { isAuthenticated, userDetails } = useSelector((state) => state.user);
   const emailVerified = userDetails?.user?.emailVerified || false;
 
+
   useEffect(() => {
-    if (!isAuthenticated || !emailVerified) {
+    if (!isAuthenticated || !emailVerified ) {
       dispatch(authState());
     }
   }, [dispatch, isAuthenticated, emailVerified]);
