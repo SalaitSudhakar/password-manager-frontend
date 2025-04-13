@@ -59,7 +59,7 @@ const Login = () => {
         <title>Login - SafePass</title>
       </Helmet>
 
-      <div className="px-3 min-h-screen sm:px-8 py-6 my-10 w-full sm:max-w-md mx-auto border border-teal-100  text-center bg-teal-50 rounded-xl shadow-lg shadow-emerald-300">
+      <div className="px-3 sm:px-8 py-6 my-10 w-full sm:max-w-md mx-auto border border-teal-100  text-center bg-teal-50 rounded-xl shadow-lg shadow-emerald-300">
         <h1 className="text-4xl text-teal-700 text-center font-bold mb-2">
           Welcome Back
         </h1>

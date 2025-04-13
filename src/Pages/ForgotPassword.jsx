@@ -10,7 +10,7 @@ import {
   apiRequestSuccess,
 } from "../Redux/Slice/userSlice";
 import api from "../services/axiosConfig";
-import { FaMailBulk, FaPen } from "react-icons/fa";
+import { FaMailBulk } from "react-icons/fa";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");

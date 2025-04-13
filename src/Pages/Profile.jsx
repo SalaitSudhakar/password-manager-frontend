@@ -75,7 +75,7 @@ const Profile = () => {
         </>
       ) : (
         <div className="w-full min-h-screen max-w-2xl mx-auto py-10 md:px-2 ">
-          <div className="flex flex-col gap-4 px-2 mx-auto">
+          <div className="flex flex-col gap-4 px-1 sm:px-2 mx-auto">
             {/* Left Side Content */}
             <div className="flex flex-wrap gap-0.5 md:gap-1">
               {tabs.map((tab) => (
@@ -86,7 +86,7 @@ const Profile = () => {
                     }, 300);
                   }}
                   key={tab.id}
-                  className={`flex flex-1 items-center space-x-3 cursor-pointer rounded p-4 transition-all duration-200 ${
+                  className={`flex flex-1 items-center text-sm sm:text-base space-x-1.5 sm:space-x-3 cursor-pointer rounded p-2 py-4 sm:p-4 transition-all duration-200 ${
                     selectedTab === tab.id
                       ? "bg-teal-800 text-white "
                       : "bg-teal-200 text-gray-700"

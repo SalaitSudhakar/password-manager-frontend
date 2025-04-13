@@ -130,13 +130,8 @@ const Register = () => {
             />
           </div>
 
-          <div className="flex justify-between items-center text-sm">
-            <Link
-              to="/forgot-password"
-              className="text-teal-600 font-medium ml-2 hover:text-teal-800 transition-colors duration-300"
-            >
-              Forgot Password
-            </Link>
+          <div className="flex justify-end items-center text-sm">
+            
             <div className="flex gap-1.5 items-center justify-center text-sm">
               {" "}
               <input

@@ -1,21 +1,24 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-const Footer = () => {
+const Footer = ({ hidecomponent }) => {
   const { isSidebarOpen } = useSelector((state) => state.sidebar);
+  const location = useLocation();
+
+  const hide = hidecomponent.includes(location.pathname);
 
   return (
     <div
-      className={`bg-teal-100 text-gray-800 p-4 transition-all duration-300 ${
+      className={`bg-teal-100 text-gray-800 px-2 py-4 sm:p-4 transition-all duration-300 ${hide ? "" : 
         isSidebarOpen ? "sm:ml-60" : "sm:ml-16"
       }`}
     >
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-2 max-w-6xl mx-auto gap-3">
+      <div className="flex flex-row flex-wrap justify-between items-center p-2 max-w-6xl mx-auto gap-5">
         {/* Logo & Title */}
         <div className="flex items-center gap-3">
-          <img src="logo.png" alt="logo" className="w-10 h-10" />
-          <p className="text-xl font-bold tracking-wide">SafePass</p>
+          <img src="logo.png" alt="logo" className="w-6 h-6 sm:w-10 sm:h-10" />
+          <p className="sm:text-xl font-bold tracking-wide">SafePass</p>
         </div>
 
         {/* Author Info + Socials */}
@@ -48,7 +51,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <p className="text-xs text-gray-500 mt-2 text-center">
+      <p className="text-xs text-gray-500 mt-2 p-2 text-center">
         © {new Date().getFullYear()} SafePass. All rights reserved.
       </p>
     </div>

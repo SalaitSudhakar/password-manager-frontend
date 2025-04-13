@@ -6,7 +6,7 @@ import { FaHome, FaLock, FaUser } from "react-icons/fa";
 import { LuLogIn } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
 
-const SmallScreenSidebar = () => {
+const SmallScreenSidebar = ({ hideComponent }) => {
   const dispatch = useDispatch();
   const location = useLocation();
 

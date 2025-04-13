@@ -4,13 +4,12 @@ import { Navigate, Outlet } from "react-router-dom";
 
 
 const ProtectedRoute = ({ allowedRoles }) => {
+  const { isAuthenticated, userDetails } = useSelector((state) => state.user);
 
-  const { isAuthenticated, userDetails } = useSelector(
-    (state) => state.user
-  );
+  const user = userDetails?.user;
 
-  const userRole = userDetails?.user?.role;
-  const emailVerified = userDetails?.user?.emailVerified;
+  const userRole = user?.role;
+  const emailVerified = user?.emailVerified;
 
   if (!isAuthenticated || !emailVerified) {
     return <Navigate to="/login" replace />;

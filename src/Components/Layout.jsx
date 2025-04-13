@@ -5,12 +5,11 @@ import { useSelector } from "react-redux";
 import Navbar from "./Navbar";
 import SmallScreenSidebar from "./SmallScreenSidebar.jsx";
 
-const Layout = () => {
+const Layout = ({ hideComponent }) => {
   const { isSidebarOpen } = useSelector((state) => state.sidebar);
   const location = useLocation();
 
-  const hide = ["/login", "/register", "/forgot-password", "/reset-password", "/verify-email"];
-  const hideLayout = hide.includes(location.pathname);
+  const hideLayout = hideComponent.includes(location.pathname);
 
   return (
     <div>
@@ -23,7 +22,7 @@ const Layout = () => {
             : "sm:ml-12 md:ml-16"
         }`}
       >
-        <Navbar />
+        <Navbar hideComponent={hideComponent}/>
       </div>
 
       <SmallScreenSidebar />
