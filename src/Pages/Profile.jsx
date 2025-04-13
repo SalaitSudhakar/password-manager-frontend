@@ -69,12 +69,12 @@ const Profile = () => {
       </Helmet>
       {isPageLoading ? (
         <>
-          <div className="absolute inset-0 w-full min-h-screen bg-black/20 backdrop-blur-sm flex items-center justify-center">
+          <div className="absolute inset-0 w-full bg-black/20 backdrop-blur-sm flex items-center justify-center">
             <PulseLoader size={25} color={"#14b8a6"} />
           </div>
         </>
       ) : (
-        <div className="w-full min-h-screen max-w-2xl mx-auto py-10 md:px-2 ">
+        <div className="w-full max-w-2xl mx-auto py-10 md:px-2 ">
           <div className="flex flex-col gap-4 px-1 sm:px-2 mx-auto">
             {/* Left Side Content */}
             <div className="flex flex-wrap gap-0.5 md:gap-1">

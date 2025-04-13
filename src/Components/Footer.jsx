@@ -14,7 +14,7 @@ const Footer = ({ hidecomponent }) => {
         isSidebarOpen ? "sm:ml-60" : "sm:ml-16"
       }`}
     >
-      <div className="flex flex-row flex-wrap justify-between items-center p-2 max-w-6xl mx-auto gap-5">
+      <div className="flex flex-row flex-wrap justify-between items-center p-2 pb-0 max-w-6xl mx-auto gap-5 sm:gap-2">
         {/* Logo & Title */}
         <div className="flex items-center gap-3">
           <img src="logo.png" alt="logo" className="w-6 h-6 sm:w-10 sm:h-10" />
@@ -51,7 +51,7 @@ const Footer = ({ hidecomponent }) => {
           </div>
         </div>
       </div>
-      <p className="text-xs text-gray-500 mt-2 p-2 text-center">
+      <p className="text-xs text-gray-500 mt-2 sm:mt-0 p-2 text-center">
         © {new Date().getFullYear()} SafePass. All rights reserved.
       </p>
     </div>

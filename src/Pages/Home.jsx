@@ -5,7 +5,7 @@ import { FaBolt, FaShieldAlt, FaLock } from "react-icons/fa";
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-teal-50 text-gray-800 ">
+    <div className="bg-teal-50 text-gray-800 ">
       {/* Hero Section */}
       <div className="max-w-6xl mx-auto py-20 flex flex-col-reverse sm:flex-col items-center justify-center gap-10 ">
         {/* Text Content */}
