@@ -7,9 +7,9 @@ import { Helmet } from "react-helmet";
 const Home = () => {
   return (
     <>
-    <Helmet>
-      <title>Home - SafePass</title>
-    </Helmet>
+      <Helmet>
+        <title>Home - SafePass</title>
+      </Helmet>
       <div className="bg-teal-50 text-gray-800 ">
         {/* Hero Section */}
         <div className="max-w-6xl mx-auto py-20 flex flex-col-reverse sm:flex-col items-center justify-center gap-10 ">
@@ -42,7 +42,7 @@ const Home = () => {
               <div className="relative inline-block px-4 py-2 rounded-lg font-semibold text-gray-800 bg-amber-500 shadow-md -rotate-3">
                 {/* Translated Shadow Layer */}
 
-                <div className="flex items-center gap-2 relative z-10">
+                <div className="flex text-sm sm:text-base items-center gap-2 relative z-10">
                   <FaBolt />
                   Strong
                 </div>
@@ -52,7 +52,7 @@ const Home = () => {
             {/* 3D Badge: Safe */}
             <div className="absolute top-[35%] -right-5">
               <div className="relative inline-block px-4 py-2 rounded-lg font-semibold text-gray-800 bg-amber-500 shadow-md rotate-3">
-                <div className="flex items-center gap-2 relative z-10">
+                <div className="flex text-sm sm:text-base items-center gap-2 relative z-10">
                   <FaShieldAlt />
                   Safe
                 </div>
@@ -62,7 +62,7 @@ const Home = () => {
             {/* 3D Badge: Simple */}
             <div className="absolute top-[70%] -left-5">
               <div className="relative inline-block px-4 py-2 rounded-lg font-semibold text-gray-800 bg-amber-500 shadow-md rotate-5">
-                <div className="flex items-center gap-2 relative z-10">
+                <div className="flex  text-sm sm:text-base items-center gap-2 relative z-10">
                   <FaLock />
                   Simple
                 </div>

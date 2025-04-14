@@ -9,6 +9,7 @@ import {
 import api from "../services/axiosConfig";
 import ClipLoader from "react-spinners/ClipLoader";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { validatePassword } from "../utils/validatePassword";
 
 const LinkEmailPasswordTab = ({ selectedTab, onSuccess, setSelectedTab }) => {
   const [formData, setFormData] = useState({});
@@ -27,6 +28,13 @@ const LinkEmailPasswordTab = ({ selectedTab, onSuccess, setSelectedTab }) => {
       toast.error("Passwords do not match.");
       return;
     }
+
+     if (formData.password) {
+        const validPassword = validatePassword(formData.password)
+        if (!validPassword.isValid) {
+          return toast.error(validPassword.message)
+        }
+      }
 
     try {
       dispatch(apiRequestStart());

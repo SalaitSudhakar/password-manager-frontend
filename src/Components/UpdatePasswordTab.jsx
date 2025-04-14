@@ -44,7 +44,7 @@ const UpdatePasswordTab = ({ selectedTab }) => {
       return;
     }
 
-    if (!validatePassword(passwordData.newPassword)) {
+    if (!validatePassword(passwordData.newPassword).isValid) {
       toast.error(
         "Passwords must be atleast 8 character length. It should atleast have 1 Lowercase letter, 1 uppercase letter and 1 special Character with 1 number"
       );
