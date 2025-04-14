@@ -15,16 +15,16 @@ const Home = () => {
         <div className="max-w-6xl mx-auto py-20 flex flex-col-reverse sm:flex-col items-center justify-center gap-10 ">
           {/* Text Content */}
           <div className=" sm:w-1/2 mt-10 mx-5 sm:mt-0 mb-5">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-teal-700">
-              Secure. Simple. Strong.
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
+              Secure. <span className="text-amber-500">Simple.</span> Strong.
             </h1>
             <p className="text-lg text-gray-700 mb-8">
               Manage all your passwords in one safe place. Your digital vault
               for strong, encrypted, and easily accessible credentials.
             </p>
             <Link
-              to={"/passwords"}
-              className="bg-gradient-to-br from-teal-600 to-teal-800 hover:from-teal-500 hover:to-teal-600 shadow-lg shadow-teal-200 border   text-white px-6 py-3 rounded-xl  transition-all duration-300"
+              to={"/passwords/add"}
+              className="group bg-gradient-to-br from-teal-600 to-teal-800 hover:from-teal-500 hover:to-teal-600 shadow-md font-semibold shadow-amber-500 text-amber-400 group-hover:text-amber-500 hover:shadow-lg px-6 py-3 rounded-xl  transition-all duration-300"
             >
               Add Passwords
             </Link>

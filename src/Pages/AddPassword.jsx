@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
+console.log("hello add password")
 const AddPassword = () => {
+  console.log("Add Password")
   const [formData, setFormData] = useState({});
   const [showPassword, setShowPassword] = useState(false)
 

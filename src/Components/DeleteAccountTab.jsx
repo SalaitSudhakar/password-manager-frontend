@@ -73,7 +73,7 @@ const DeleteAccountTab = ({ selectedTab }) => {
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="group mt-3 bg-gradient-to-r from-red-500 to-red-700 p-3 rounded-lg text-white font-semibold transition-all duration-300 hover:from-red-600 hover:to-red-800 transform hover:scale-105 shadow-md hover:shadow-lg"
+          className="group mt-3 bg-gradient-to-r from-red-500 to-red-700 p-3 rounded-lg text-red-200 font-semibold transition-all duration-300 hover:from-red-600 hover:to-red-800 transform hover:scale-105 shadow-md hover:shadow-lg shadow-red-500 cursor-pointer"
         >
           Delete Account
         </button>

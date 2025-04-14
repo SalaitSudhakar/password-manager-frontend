@@ -86,10 +86,10 @@ const Profile = () => {
                     }, 300);
                   }}
                   key={tab.id}
-                  className={`flex flex-1 items-center text-sm sm:text-base space-x-1.5 sm:space-x-3 cursor-pointer rounded p-2 py-4 sm:p-4 transition-all duration-200 ${
+                  className={`flex flex-1 items-center text-sm sm:text-base font-bold space-x-1.5 sm:space-x-3 border border-amber-500 cursor-pointer rounded p-2 py-4 sm:p-4 transition-all duration-200 ${
                     selectedTab === tab.id
-                      ? "bg-teal-800 text-white "
-                      : "bg-teal-200 text-gray-700"
+                      ? "bg-teal-800 text-amber-500 "
+                      : "bg-gray-200 text-amber-600"
                   }`}
                 >
                   {tab.icon} <span>{tab.label}</span>

@@ -47,12 +47,12 @@ const Navbar = ({ hideComponent }) => {
               title="Home"
               className="text-xl sm:text-2xl text-gray-300 font-bold capitalize hover:text-gray-200"
             >
-              SafePass
+              Safe<span className="text-amber-500">Pass</span>
             </h1>
           </Link>
         </div>
 
-        <ul className="flex items-center justify-center gap-4 sm:gap-8 text-teal-200">
+        <ul className="flex items-center justify-center gap-4 sm:gap-8 text-teal-200 font-medium">
           <Link to="/">
             <li className="hidden sm:block hover:underline hover:text-teal-400">
               Home
@@ -65,7 +65,7 @@ const Navbar = ({ hideComponent }) => {
                 <img
                   src={userDetails?.user?.profile || fallBackProfile}
                   alt="user profile"
-                  className=" border-2 rounded-full w-8 sm:w-10 border-teal-400  text-teal-400"
+                  className=" border-2 rounded-full w-8 sm:w-10 border-amber-400  text-teal-400"
                 />
               </Link>
 
@@ -80,7 +80,7 @@ const Navbar = ({ hideComponent }) => {
           ) : (
             <Link
               to="/login"
-              className="group flex gap-2 items-center justify-center p-1.5 sm:p-3 border border-white bg-emerald-600 rounded-lg font-semibold text-gray-300 duration-100  shadow-sm shadow-red-200 transition-all transform  hover:scale-105  ease-in-out hover:text-red-100"
+              className="group flex gap-2 items-center justify-center p-1.5 sm:p-3 border border-white bg-emerald-600 rounded-lg font-semibold text-gray-300 duration-100  shadow-sm hover:shadow-md shadow-amber-500 transition-all transform  hover:scale-105  ease-in-out hover:text-red-100"
             >
               <p className="flex items-center justify-center">Login</p>
               <FaSignOutAlt

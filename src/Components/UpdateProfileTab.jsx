@@ -83,7 +83,7 @@ const UpdateProfileTab = ({ selectedTab, profileData }) => {
         {/* Form */}
         <form className="flex flex-col" onSubmit={handleProfileUpdate}>
           <div className="flex items-center my-3 gap-2">
-            <div className="border-2 border-teal-800 rounded-full ">
+            <div className="border-2 border-amber-500 rounded-full ">
               <img
                 src={profile ? URL.createObjectURL(profile) : defaultProfile}
                 alt="profile"
@@ -105,11 +105,11 @@ const UpdateProfileTab = ({ selectedTab, profileData }) => {
               <button
                 type="button"
                 onClick={() => profileImgFileRef.current.click()}
-                className="group flex items-center justify-center gap-2 text-blue-700 text-lg cursor-pointer transition-all duration-200 hover:text-blue-400 active:text-teal-300"
+                className="group flex items-center justify-center gap-2 text-amber-600  cursor-pointer transition-all duration-200 hover:text-amber-500 active:text-amber-400"
               >
                 <span>Change Profile </span>{" "}
                 <FaPen
-                  className="text-blue-700 group-hover:text-blue-400 group-active:text-teal-300 group-transtion-all duration-200"
+                  className=" group-transtion-all duration-200"
                   size={15}
                 />
               </button>
@@ -167,7 +167,7 @@ const UpdateProfileTab = ({ selectedTab, profileData }) => {
 
           <button
             disabled={isLoading}
-            className="group mt-3 bg-gradient-to-r from-teal-500 to-teal-700 p-3 rounded-lg text-white font-semibold transition-all duration-300 hover:from-teal-600 hover:to-teal-800 transform hover:scale-105 shadow-md hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none"
+            className="group mt-3 bg-gradient-to-r from-teal-500 to-teal-700 p-3 rounded-lg text-amber-200 font-semibold transition-all duration-300 hover:from-teal-600 hover:to-teal-800 cursor-pointer transform hover:scale-105 shadow-md shadow-amber-600 hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none"
           >
             {isLoading ? (
               <span className="flex justify-center items-center gap-2">

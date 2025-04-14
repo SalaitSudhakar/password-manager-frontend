@@ -31,7 +31,7 @@ const PageNotFound = () => {
             </div>
 
             {/* Error Code */}
-            <h1 className="text-6xl font-bold text-teal-600 mb-4">404</h1>
+            <h1 className="text-6xl font-bold text-amber-600 mb-4">404</h1>
 
             {/* Error Message */}
             <h2 className="text-2xl font-semibold text-gray-800 mb-2">
@@ -49,14 +49,14 @@ const PageNotFound = () => {
             <div className="flex flex-col sm:flex-row sm:justify-center gap-4 w-full">
               <Link
                 to="/"
-                className="py-3 px-6 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-md shadow-md transition-colors duration-300 text-center"
+                className="py-3 px-6 bg-teal-800 hover:bg-teal-600 text-amber-400 border border-amber-700 font-medium rounded-md shadow-md transition-colors duration-300 text-center"
               >
                 Return to Home
               </Link>
               {isAuthenticated && (
                 <Link
                   to="/passwords"
-                  className="py-3 px-6 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-md shadow-md transition-colors duration-300 text-center"
+                  className="py-3 px-6 bg-gray-200 hover:bg-gray-300 text-amber-700 border border-amber-700 font-medium rounded-md shadow-md transition-colors duration-300 text-center"
                 >
                   Search Passwords
                 </Link>

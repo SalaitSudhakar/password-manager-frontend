@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authState, resetLoadingstate } from "./Redux/Slice/userSlice.js";
 import Footer from "./Components/Footer.jsx";
 import PulseLoader from "react-spinners/PulseLoader.js";
-import AddPassword from './Components/AddPassword';
+import AddPassword from './Pages/AddPassword';
 import EditPassword from './Pages/EditPassword';
 
 // Separate component to handle useLocation and resetLoadingstate
@@ -74,8 +74,8 @@ const App = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/passwords" element={<PasswordList />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/password/add" element={<AddPassword />}/>
-                <Route path="/password/edit/:passwordId" element={<EditPassword />}/>
+                <Route path="/passwords/add" element={<AddPassword />}/>
+                <Route path="/passwords/edit/:passwordId" element={<EditPassword />}/>
               </Route>
 
               <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>

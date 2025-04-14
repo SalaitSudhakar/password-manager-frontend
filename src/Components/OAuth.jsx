@@ -58,7 +58,7 @@ const OAuth = () => {
       type="button"
       disabled={isLoading}
       onClick={handleGoogleClick}
-      className="group bg-gradient-to-br from-red-400 to-red-600 p-3 rounded-lg text-white transition-all duration-100 font-semibold  border-2  hover:from-red-500 hover:to-red-700 transform hover:scale-105 shadow-md hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none"
+      className="group bg-gradient-to-br from-red-400 to-red-600 p-3 rounded-lg text-white transition-all duration-100 font-semibold  hover:from-red-500 hover:to-red-700 transform hover:scale-105 shadow-md hover:shadow-lg shadow-red-500 disabled:opacity-50 disabled:pointer-events-none"
     >
       {isLoading && isGoogleBtnClicked ? (
         <span className="flex justify-center items-center gap-2">
