@@ -74,7 +74,7 @@ const App = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/passwords" element={<PasswordList />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/password/add/:passwordId" element={<AddPassword />}/>
+                <Route path="/password/add" element={<AddPassword />}/>
                 <Route path="/password/edit/:passwordId" element={<EditPassword />}/>
               </Route>
 
