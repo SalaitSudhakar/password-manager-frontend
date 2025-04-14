@@ -97,6 +97,7 @@ const VerifyEmail = () => {
                 key={index}
                 type="text"
                 maxLength="1"
+                aria-label="otp field"
                 value={digit}
                 onChange={(e) => handleChange(index, e)}
                 onKeyDown={(e) => handleKeyDown(index, e)}

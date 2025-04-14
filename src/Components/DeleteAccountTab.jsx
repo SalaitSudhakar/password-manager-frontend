@@ -103,6 +103,7 @@ const DeleteAccountTab = ({ selectedTab }) => {
               onChange={(e) => setDeleteConfirmed(e.target.value)}
               type="text"
               name="delete"
+              aria-label="Enter uppercase word delete to confirm delete the account"
               required
               className="border p-2 w-full text-gray-700 font-medium rounded-lg border-teal-700 focus:outline-teal-700"
             />

@@ -70,6 +70,8 @@ const LinkEmailPasswordTab = ({ selectedTab, onSuccess, setSelectedTab }) => {
           <input
             type={showPassword ? "text" : "password"}
             name="password"
+            value={formData.newPassword}
+            aria-label="new password"
             onChange={handleChange}
             required
             className="w-full border-b border-teal-700 py-3 pb-1 text-gray-700 focus:outline-none"
@@ -87,6 +89,7 @@ const LinkEmailPasswordTab = ({ selectedTab, onSuccess, setSelectedTab }) => {
           <input
             type={showConfirm ? "text" : "password"}
             name="confirmPassword"
+            aria-label="Confirm new password"
             onChange={handleChange}
             required
             className="w-full border-b border-teal-700 py-3 pb-1 text-gray-700 focus:outline-none"

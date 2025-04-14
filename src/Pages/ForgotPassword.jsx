@@ -89,6 +89,7 @@ const ForgotPassword = () => {
                 type="email"
                 id="email"
                 name="email"
+                aria-label="Email"
                 placeholder="Email"
                 value={email}
                 className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"

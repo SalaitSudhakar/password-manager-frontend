@@ -99,6 +99,7 @@ const Register = () => {
               type="text"
               id="name"
               name="name"
+              aria-label="name"
               placeholder="Name"
               className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
               onChange={handleChange}
@@ -111,6 +112,7 @@ const Register = () => {
               type="email"
               id="email"
               name="email"
+              aria-label="email"
               placeholder="Email"
               className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
               onChange={handleChange}
@@ -123,6 +125,7 @@ const Register = () => {
               type={`${showPassword ? "text" : "password"}`}
               id="password"
               name="password"
+              aria-label="password"
               placeholder="Password"
               className="w-full border mt-1 border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
               onChange={handleChange}

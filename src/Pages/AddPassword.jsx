@@ -97,7 +97,6 @@ const AddPassword = () => {
         });
       }
       setCurrentTag("");
-      set;
     } else {
       setCurrentTag(value);
     }
@@ -140,6 +139,7 @@ const AddPassword = () => {
           <input
             type="text"
             name="siteName"
+            aria-label="site name"
             value={formData.siteName}
             placeholder="Site Name"
             onChange={handleFormChange}
@@ -150,6 +150,7 @@ const AddPassword = () => {
           <input
             type="text"
             name="siteUrl"
+            aria-label="site url"
             value={formData.siteUrl}
             placeholder="Site URL"
             onChange={handleFormChange}
@@ -160,6 +161,7 @@ const AddPassword = () => {
           <input
             type="text"
             name="username"
+            aria-label="username"
             value={formData.username}
             placeholder="username/email (optional)"
             onChange={handleFormChange}
@@ -172,6 +174,7 @@ const AddPassword = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
+                aria-label="password"
                 value={formData.password}
                 placeholder="password"
                 onChange={handleFormChange}
@@ -234,6 +237,7 @@ const AddPassword = () => {
           <select
             id="category"
             name="category"
+            aria-label="category"
             value={formData.category}
             onChange={handleFormChange}
             className="w-full p-3 border text-gray-700 border-amber-400 bg-white/50 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -250,6 +254,7 @@ const AddPassword = () => {
             <input
               type="text"
               name="tags"
+              aria-label="tags"
               value={currentTag}
               onChange={handleTagChange}
               onKeyDown={handleTagKeyDown}
@@ -276,6 +281,23 @@ const AddPassword = () => {
               </div>
             )}
           </div>
+
+          {/* Notes */}
+          <textarea
+            id="notes"
+            name="notes"
+            aria-label="notes"
+            value={formData.notes}
+            onChange={(e) =>
+              setFormData({ ...formData, notes: e.target.value })
+            }
+            rows={4}
+            placeholder="Enter the notes you want to remember the password"
+            spellCheck="true"
+            autoComplete="on"
+            autoCapitalize="sentences"
+            className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg resize-y focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
+          />
         </form>
       </div>
     </>
