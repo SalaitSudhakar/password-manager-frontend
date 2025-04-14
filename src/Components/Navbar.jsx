@@ -71,16 +71,16 @@ const Navbar = ({ hideComponent }) => {
 
               <button
                 onClick={handleLogout}
-                className="flex items-center justify-center gap-1 p-1.5 sm:p-3 text-gray-400 bg-gradient-to-b from-red-500 to-red-700  border-white bg-amber-400 rounded-lg font-semibold duration-100  shadow-sm shadow-red-200 transition-all transform  hover:scale-105  ease-in-out hover:text-red-100"
+                className="flex items-center justify-center gap-1 px-1.5 py-3 sm:px-3 text-gray-400 bg-gradient-to-b from-red-500 to-red-700  border-white bg-amber-400 rounded-lg font-semibold duration-100  shadow-sm shadow-red-200 transition-all transform  hover:scale-105  ease-in-out hover:text-red-100"
               >
-                <FaSignOutAlt className="text-gray-400 group-hover:text-red-400 w-2 sm:w-4" />
+                <FaSignOutAlt size={18} className="text-gray-400 group-hover:text-red-400"/>
                 <span>Logout </span>
               </button>
             </>
           ) : (
             <Link
               to="/login"
-              className="group flex gap-2 items-center justify-center p-1.5 sm:p-3 border border-white bg-emerald-600 rounded-lg font-semibold text-gray-300 duration-100  shadow-sm hover:shadow-md shadow-amber-500 transition-all transform  hover:scale-105  ease-in-out hover:text-red-100"
+              className="group flex gap-2 items-center justify-center px-1.5 py-3 sm:px-3 border border-white bg-emerald-600 rounded-lg font-semibold text-gray-300 duration-100  shadow-sm hover:shadow-md shadow-amber-500 transition-all transform  hover:scale-105  ease-in-out hover:text-red-100"
             >
               <p className="flex items-center justify-center">Login</p>
               <FaSignOutAlt
