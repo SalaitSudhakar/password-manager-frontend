@@ -17,7 +17,7 @@ const Footer = ({ hidecomponent }) => {
       <div className="flex flex-row flex-wrap justify-between items-center p-2 pb-0 max-w-6xl mx-auto gap-5 sm:gap-2">
         {/* Logo & Title */}
         <div className="flex items-center gap-3">
-          <img src="logo.png" alt="logo" className="w-6 h-6 sm:w-10 sm:h-10" />
+          <img src="/logo.png" alt="logo" className="w-6 h-6 sm:w-10 sm:h-10" />
           <p className="sm:text-xl font-bold tracking-wide">SafePass</p>
         </div>
 
