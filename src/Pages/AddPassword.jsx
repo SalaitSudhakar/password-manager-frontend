@@ -10,6 +10,15 @@ import {
 } from "./../utils/checkPasswordStrength.js";
 import { validatePassword } from "../utils/validatePassword.js";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  apiRequestFail,
+  apiRequestStart,
+  resetLoadingstate,
+} from "../Redux/Slice/userSlice.js";
+import api from "../services/axiosConfig.js";
+import ClipLoader from "react-spinners/ClipLoader";
+import { Link } from "react-router-dom";
 
 const AddPassword = () => {
   const [formData, setFormData] = useState({
@@ -24,6 +33,8 @@ const AddPassword = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [currentTag, setCurrentTag] = useState("");
+  const { isLoading, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   /* Category options */
   const categoryOptions = [
@@ -35,31 +46,6 @@ const AddPassword = () => {
     "shopping",
     "others",
   ];
-  // Validate password:
-  if (formData.password) {
-    const validPassword = validatePassword(formData.password);
-    if (!validPassword.isValid) {
-      return toast.error(validPassword.message);
-    }
-  }
-
-  // Validate site url:
-  const isValidUrl = (url) => {
-    try {
-      const parsed = new URL(url);
-      // Ensure it correctly checks for both http:// and https://
-      return parsed.protocol === "https:" || parsed.protocol === "http:";
-    } catch (_) {
-      return false;
-    }
-  };
-
-  if (formData.siteUrl) {
-    if (!isValidUrl(formData.siteUrl)) {
-      toast.error("Enter valid Site URL");
-      return;
-    }
-  }
 
   // Generate password on button click
   const handleGeneratePasswordClick = (e) => {
@@ -121,6 +107,46 @@ const AddPassword = () => {
       tags: formData.tags.filter((tag) => tag !== tagToRemove),
     });
   };
+
+  const handleAddPasswordSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.siteName || !formData.siteUrl || !formData.password) {
+      toast.error("Site name, site url and password are required");
+    }
+
+    // Validate password:
+    if (formData.password) {
+      const validPassword = validatePassword(formData.password);
+      if (!validPassword.isValid) {
+        return toast.error(validPassword.message);
+      }
+    }
+
+    try {
+      dispatch(apiRequestStart());
+
+      const response = await api.post("/password/create", formData);
+
+      const data = response.data;
+
+      dispatch(resetLoadingstate());
+      toast.success(data.message);
+
+      setFormData({
+        siteName: "",
+        siteUrl: "",
+        username: "",
+        password: "",
+        category: "personal",
+        tags: [],
+        notes: "",
+      });
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      dispatch(apiRequestFail(error));
+    }
+  };
   return (
     <>
       <Helmet>
@@ -128,10 +154,18 @@ const AddPassword = () => {
       </Helmet>
       <div className="px-4 sm:px-8 py-6 my-10 w-[96%] sm:max-w-3xl mx-auto border border-teal-100  text-center bg-teal-50 rounded-xl shadow-lg shadow-emerald-300">
         <div className="flex gap-4 items-center font-bold text-gray-800">
-          <IoArrowBackOutline size={25} className="" />
+          <Link
+            to="/passwords"
+            className="p-1 hover:bg-gray-200 transition-colors duration-200 rounded-full"
+          >
+            <IoArrowBackOutline size={25} className="" />
+          </Link>
           <h1 className="text-3xl text-teal-700 mb-2"> Add Password</h1>
         </div>
-        <form className="flex flex-col gap-4 my-10">
+        <form
+          onSubmit={handleAddPasswordSubmit}
+          className="flex flex-col gap-4 my-10"
+        >
           <p className="text-gray-600 font-medium text-start -mb-2">
             Required Information
           </p>
@@ -267,12 +301,12 @@ const AddPassword = () => {
                 {formData.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="group inline-flex items-center gap-1 pl-3 pr-0.5 py-1 rounded-full text-xs font-semibold bg-amber-200 text-gray-800 hover:bg-amber-500 hover:text-gray-100 transition-colors duration-200"
+                    className="group inline-flex items-center gap-1 pl-3 py-1 rounded-full text-xs font-semibold bg-amber-200 text-gray-800 border border-gray-300 hover:bg-amber-500 hover:text-gray-100 transition-colors duration-200"
                   >
                     {tag}
                     <button
                       onClick={() => handleRemoveTag(tag)}
-                      className="p-1 rounded-full bg-teal-100 cursor-pointer group-hover:bg-teal-500"
+                      className="p-1 rounded-full bg-teal-100 cursor-pointer group-hover:bg-teal-500 transition-colors duration-200 border border-gray-200"
                     >
                       <IoClose size={15} />
                     </button>
@@ -298,6 +332,26 @@ const AddPassword = () => {
             autoCapitalize="sentences"
             className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg resize-y focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
           />
+
+          {error && (
+            <p className="text-red-700 text-sm text-center my-1 ">
+              {error?.response?.data?.message ||
+                "Something Went Wrong. Try Again"}
+            </p>
+          )}
+
+          <button
+            disabled={isLoading}
+            className="group mt-3 bg-gradient-to-r cursor-pointer from-teal-500 to-teal-700 p-3 rounded-lg text-white font-semibold transition-all duration-300 hover:from-teal-600 hover:to-teal-800 transform hover:scale-105 shadow-md hover:shadow-lg shadow-teal-600 disabled:opacity-50 disabled:pointer-events-none"
+          >
+            {isLoading ? (
+              <span className="flex justify-center items-center gap-2 ">
+                <span>Loading</span> <ClipLoader color={"#A7F3D0"} size={25} />
+              </span>
+            ) : (
+              "Add Password"
+            )}
+          </button>
         </form>
       </div>
     </>
