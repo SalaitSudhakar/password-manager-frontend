@@ -35,7 +35,7 @@ const Home = () => {
             <img
               src={lock_icon}
               alt="Password Manager Screenshot"
-              className="w-[200px] h-[300px] md:w-[400px] md:h-[500px] rounded-2xl "
+              className="w-[300px] h-[400px] md:w-[400px] md:h-[500px] rounded-2xl "
             />
             {/* 3D Badge: Strong */}
             <div className="absolute top-[10%] -left-5">

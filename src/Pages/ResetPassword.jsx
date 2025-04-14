@@ -89,7 +89,7 @@ const ResetPassword = () => {
               name="password"
               placeholder="New Password"
               value={password}
-              className="w-full border border-gray-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
+              className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
@@ -108,7 +108,7 @@ const ResetPassword = () => {
               name="confirmPassword"
               placeholder="Confirm Password"
               value={confirmPassword}
-              className="w-full border border-gray-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
+              className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />

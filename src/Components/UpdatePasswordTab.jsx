@@ -9,6 +9,7 @@ import {
 import api from "../services/axiosConfig";
 import ClipLoader from "react-spinners/ClipLoader";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { validatePassword } from "../utils/validatePassword.js";
 
 const UpdatePasswordTab = ({ selectedTab }) => {
   // Password Tab code
@@ -29,11 +30,6 @@ const UpdatePasswordTab = ({ selectedTab }) => {
       ...prev,
       [e.target.name]: e.target.value,
     }));
-  };
-
-  const validatePassword = (password) => {
-    const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z])(?=.*[\W_]).{8,}$/;
-    return regex.test(password);
   };
 
   const handlePasswordUpdate = async (e) => {

@@ -91,7 +91,7 @@ const ForgotPassword = () => {
                 name="email"
                 placeholder="Email"
                 value={email}
-                className="w-full border border-gray-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
+                className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
