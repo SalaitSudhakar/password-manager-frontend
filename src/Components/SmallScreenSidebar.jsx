@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { toggleSmallScreenSidebar } from "../Redux/Slice/sidebarSlice";
-import { FaHome, FaLock, FaUser } from "react-icons/fa";
+import { FaHome, FaLock, FaPlus, FaUser } from "react-icons/fa";
 import { LuLogIn } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
 
@@ -25,6 +25,7 @@ const SmallScreenSidebar = ({ hideComponent }) => {
     menuItems.push({ name: "Home", icon: <FaHome />, link: "/" });
     menuItems.push({ name: "Passwords", icon: <FaLock />, link: "/passwords" });
     menuItems.push({ name: "Profile", icon: <FaUser />, link: "/profile" });
+    menuItems.push({ name: "Add Passwords", icon: <FaPlus />, link: "/passwords/add" });
   }
 
   // Add "Login" only if the user is NOT authenticated

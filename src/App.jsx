@@ -21,6 +21,7 @@ import Footer from "./Components/Footer.jsx";
 import PulseLoader from "react-spinners/PulseLoader.js";
 import AddPassword from './Pages/AddPassword';
 import EditPassword from './Pages/EditPassword';
+import PasswordPage from "./Pages/PasswordPage.jsx";
 
 // Separate component to handle useLocation and resetLoadingstate
 const RouteChangeHandler = () => {
@@ -76,6 +77,7 @@ const App = () => {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/passwords/add" element={<AddPassword />}/>
                 <Route path="/passwords/edit/:passwordId" element={<EditPassword />}/>
+                <Route path="/passwords/:passwordId" element={<PasswordPage />}/>
               </Route>
 
               <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>

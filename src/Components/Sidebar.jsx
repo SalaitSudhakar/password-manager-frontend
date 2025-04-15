@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { LuLogIn } from "react-icons/lu";
-import { FaHome, FaUser, FaLock, FaAngleLeft, FaBars } from "react-icons/fa";
+import { FaHome, FaUser, FaLock, FaAngleLeft, FaBars, FaPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSidebar } from "../Redux/Slice/sidebarSlice.js";
 
@@ -32,6 +32,7 @@ const Sidebar = () => {
   } else {
     menuItems.push({ name: "Passwords", icon: <FaLock />, link: "/passwords" });
     menuItems.push({ name: "Profile", icon: <FaUser />, link: "/profile" })
+    menuItems.push({ name: "Add Passwords", icon: <FaPlus />, link: "/passwords/add" })
   }
 
   return (

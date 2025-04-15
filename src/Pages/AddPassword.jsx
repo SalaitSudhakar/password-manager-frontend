@@ -175,7 +175,7 @@ const AddPassword = () => {
             name="siteName"
             aria-label="site name"
             value={formData.siteName}
-            placeholder="Site Name"
+            placeholder="Site Name *"
             onChange={handleFormChange}
             className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
           />
@@ -186,7 +186,7 @@ const AddPassword = () => {
             name="siteUrl"
             aria-label="site url"
             value={formData.siteUrl}
-            placeholder="Site URL"
+            placeholder="Full Site URL (ex: http://www.exmaple.com) *"
             onChange={handleFormChange}
             className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
           />
@@ -210,7 +210,7 @@ const AddPassword = () => {
                 name="password"
                 aria-label="password"
                 value={formData.password}
-                placeholder="password"
+                placeholder="password *"
                 onChange={handleFormChange}
                 className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
               />
@@ -274,11 +274,11 @@ const AddPassword = () => {
             aria-label="category"
             value={formData.category}
             onChange={handleFormChange}
-            className="w-full p-3 border text-gray-700 border-amber-400 bg-white/50 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full p-3 border text-gray-700 border-amber-400 capitalize bg-white/50 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
           >
             {categoryOptions.map((option) => (
               <option key={option} value={option} className="hover:bg-gray-100">
-                {option.charAt(0).toUpperCase() + option.slice(1)}
+               {option}
               </option>
             ))}
           </select>

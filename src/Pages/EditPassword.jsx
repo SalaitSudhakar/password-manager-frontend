@@ -289,11 +289,11 @@ const EditPassword = () => {
             aria-label="category"
             value={passwordData.category}
             onChange={handleFormChange}
-            className="w-full p-3 border text-gray-700 border-amber-400 bg-white/50 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="w-full p-3 border text-gray-700 border-amber-400 capitalize bg-white/50 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
           >
             {categoryOptions.map((option) => (
               <option key={option} value={option} className="hover:bg-gray-100">
-                {option.charAt(0).toUpperCase() + option.slice(1)}
+                {option}
               </option>
             ))}
           </select>

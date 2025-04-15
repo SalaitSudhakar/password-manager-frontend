@@ -11,7 +11,7 @@ const Footer = ({ hidecomponent }) => {
   return (
     <div className="bg-teal-100">
       <div
-        className={`bg-teal-100 text-gray-800 px-2 py-4 sm:p-4 transition-all duration-300 ${
+        className={`bg-teal-100 text-gray-800 px-2 py-4 sm:p-2.5 transition-all duration-300 ${
           hide ? "" : isSidebarOpen ? "sm:ml-60" : "sm:ml-16"
         }`}
       >
@@ -58,7 +58,7 @@ const Footer = ({ hidecomponent }) => {
             </div>
           </div>
         </div>
-        <p className="text-xs text-gray-500 mt-2 sm:mt-0 p-2 text-center">
+        <p className="text-xs text-gray-500 mt-2 sm:mt-0 px-2 pt-2 text-center">
           © {new Date().getFullYear()} SafePass. All rights reserved.
         </p>
       </div>
