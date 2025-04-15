@@ -8,7 +8,7 @@ import {
 } from "../Redux/Slice/userSlice";
 import api from "../services/axiosConfig";
 import ClipLoader from "react-spinners/ClipLoader";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaInfoCircle } from "react-icons/fa";
 import { validatePassword } from "../utils/validatePassword";
 
 const LinkEmailPasswordTab = ({ selectedTab, onSuccess, setSelectedTab }) => {
@@ -29,12 +29,12 @@ const LinkEmailPasswordTab = ({ selectedTab, onSuccess, setSelectedTab }) => {
       return;
     }
 
-     if (formData.password) {
-        const validPassword = validatePassword(formData.password)
-        if (!validPassword.isValid) {
-          return toast.error(validPassword.message)
-        }
+    if (formData.password) {
+      const validPassword = validatePassword(formData.password);
+      if (!validPassword.isValid) {
+        return toast.error(validPassword.message);
       }
+    }
 
     try {
       dispatch(apiRequestStart());
@@ -46,8 +46,8 @@ const LinkEmailPasswordTab = ({ selectedTab, onSuccess, setSelectedTab }) => {
       toast.success(res.data.message);
       dispatch(resetLoadingstate());
       onSuccess();
-      setSelectedTab("password")
-      selectedTab = 'password';
+      setSelectedTab("password");
+      selectedTab = "password";
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong.");
       dispatch(apiRequestFail(error));
@@ -64,6 +64,13 @@ const LinkEmailPasswordTab = ({ selectedTab, onSuccess, setSelectedTab }) => {
         Link Email & Password
       </h1>
 
+      <div className="my-3 flex gap-2 items-center bg-gray-200 border-l-3  border-teal-500 p-3 text-gray-500 font-medium">
+        <FaInfoCircle size={25} color="teal" />
+        <span className="text-sm">
+          You can Link a password to your email. So, you can login with your
+          email and password instead of Google Account
+        </span>
+      </div>
       <form onSubmit={handleSubmit} className="flex flex-col">
         <label className="font-semibold text-teal-800">New Password</label>
         <div className="relative w-full mt-1">
@@ -84,7 +91,9 @@ const LinkEmailPasswordTab = ({ selectedTab, onSuccess, setSelectedTab }) => {
           </span>
         </div>
 
-        <label className="font-semibold text-teal-800 mt-5">Confirm Password</label>
+        <label className="font-semibold text-teal-800 mt-5">
+          Confirm Password
+        </label>
         <div className="relative w-full mt-1">
           <input
             type={showConfirm ? "text" : "password"}

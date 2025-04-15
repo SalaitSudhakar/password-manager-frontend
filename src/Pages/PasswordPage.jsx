@@ -57,9 +57,11 @@ const PasswordPage = () => {
     e.preventDefault();
     try {
       const response = await api.delete(
-        `/passwords/delete/${passwordData._id}`
+        `/password/delete/${passwordData._id}`
       );
       toast.success(response.data.message);
+      setPasswordData("")
+      navigate("/passwords")
     } catch (error) {
       toast.error(error?.response?.data?.message || "Delete failed");
     }

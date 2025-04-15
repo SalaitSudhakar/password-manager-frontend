@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaLink, FaLock, FaTrash, FaUser } from "react-icons/fa";
+import { FaInfo, FaInfoCircle, FaLink, FaLock, FaTrash, FaUser } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 import DeleteAccountTab from "../Components/DeleteAccountTab.jsx";
 import UpdatePasswordTab from "../Components/UpdatePasswordTab.jsx";
@@ -8,11 +8,14 @@ import LinkEmailPasswordTab from "../Components/LinkEmailPasswordTab.jsx";
 import PulseLoader from "react-spinners/PulseLoader";
 import api from "../services/axiosConfig.js";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
   const [selectedTab, setSelectedTab] = useState("profile");
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [profileData, setProfileData] = useState(null);
+
+  const { userDetails } = useSelector(state => state.user)
 
   const tabs = [{ id: "profile", icon: <FaUser />, label: "Profile Section" }];
 
@@ -97,6 +100,14 @@ const Profile = () => {
               ))}
             </div>
 
+           { userDetails.user.registerType === 'google' && userDetails.user.emailPasswordLinked && (
+            <div className="flex gap-2 items-center  bg-gray-200 text-gray-500 p-2 border-l-4 border-blue-500">
+              <FaInfoCircle className="text-blue-500"/>
+              <span className="font-semibold">Your Email and Password Linked successfully. Now, You can Login using email and Password.</span>
+            </div>
+           )
+
+           }
             {/* Right Side content */}
             <div
               className={`shadow-2xl ${
