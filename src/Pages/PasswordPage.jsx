@@ -89,14 +89,14 @@ const PasswordPage = () => {
             </div>
             <div className="flex space-x-2">
               <button
-                className="p-2 text-blue-600 hover:bg-blue-50 rounded-full"
+                className="p-2 cursor-pointer text-blue-600 hover:bg-blue-50 rounded-full"
                 title="Edit"
                 onClick={handleEditButtonClick}
               >
                 <FaEdit size={20} />
               </button>
               <button
-                className="p-2 text-red-600 hover:bg-red-50 rounded-full"
+                className="p-2 cursor-pointer text-red-600 hover:bg-red-50 rounded-full"
                 title="Delete"
                 onClick={handleDeleteButtonClick}
               >
