@@ -19,10 +19,13 @@ import {
 import api from "../services/axiosConfig.js";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Link, useParams } from "react-router-dom";
+import  PulseLoader  from 'react-spinners/PulseLoader.js';
 
 const EditPassword = () => {
   const [passwordData, setPasswordData] = useState({});
   const { passwordId } = useParams();
+
+  const [isPageLoading, setIsPageLoading] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
   const [currentTag, setCurrentTag] = useState("");
@@ -123,7 +126,10 @@ const EditPassword = () => {
     try {
       dispatch(apiRequestStart());
 
-      const response = await api.put(`/password/edit/${passwordId}`, passwordData);
+      const response = await api.put(
+        `/password/edit/${passwordId}`,
+        passwordData
+      );
 
       const data = response.data;
 
@@ -147,14 +153,14 @@ const EditPassword = () => {
 
   const fetchPasswordData = async () => {
     try {
+      setIsPageLoading(true);
       const response = await api.get(`/password/get-password/${passwordId}`);
 
-      if (response.data) {
-        console.log(response.data);
-      }
       setPasswordData(response.data.password);
     } catch (error) {
       toast.error(error.reponse.data.message);
+    } finally {
+      setIsPageLoading(false);
     }
   };
 
@@ -167,208 +173,220 @@ const EditPassword = () => {
       <Helmet>
         <title>Edit Password - SafePass</title>
       </Helmet>
-      <div className="px-4 sm:px-8 py-6 my-10 w-[96%] sm:max-w-3xl mx-auto border border-teal-100  text-center bg-teal-50 rounded-xl shadow-lg shadow-emerald-300">
-        <div className="flex gap-4 items-center font-bold text-gray-800">
-          <Link
-            to="/passwords"
-            className="p-1 hover:bg-gray-200 transition-colors duration-200 rounded-full"
-          >
-            <IoArrowBackOutline size={25} className="" />
-          </Link>
-          <h1 className="text-3xl text-teal-700 mb-2"> Edit Password</h1>
+
+      {isPageLoading ? (
+        <div className="absolute inset-0 w-full bg-black/20 backdrop-blur-sm flex items-center justify-center">
+          <PulseLoader size={25} color={"#14b8a6"} />
         </div>
-        <form
-          onSubmit={handleEditPasswordSubmit}
-          className="flex flex-col gap-4 my-10"
-        >
-          <p className="text-gray-600 font-medium text-start -mb-2">
-            Required Information
-          </p>
-          {/* Site name */}
-          <input
-            type="text"
-            name="siteName"
-            aria-label="site name"
-            value={passwordData.siteName}
-            placeholder="Site Name"
-            onChange={handleFormChange}
-            className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
-          />
-
-          {/* Site Url */}
-          <input
-            type="text"
-            name="siteUrl"
-            aria-label="site url"
-            value={passwordData.siteUrl}
-            placeholder="Site URL"
-            onChange={handleFormChange}
-            className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
-          />
-
-          {/* user name (optional) */}
-          <input
-            type="text"
-            name="username"
-            aria-label="username"
-            value={passwordData.username}
-            placeholder="username/email (optional)"
-            onChange={handleFormChange}
-            className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
-          />
-
-          {/* password  */}
-          <div className="w-full flex flex-wrap sm:flex-nowrap sm:justify-center sm:items-center gap-2">
-            <div className="w-full sm:w-2/3 relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                aria-label="password"
-                value={passwordData.password}
-                placeholder="password"
-                onChange={handleFormChange}
-                className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
-              />
-              {showPassword ? (
-                <FaEyeSlash
-                  size={20}
-                  className="absolute top-4 right-3"
-                  onClick={() => setShowPassword(!showPassword)}
-                />
-              ) : (
-                <FaEye
-                  size={20}
-                  className="absolute top-4 right-3"
-                  onClick={() => setShowPassword(!showPassword)}
-                />
-              )}
-            </div>
-            <button
-              onClick={handleGeneratePasswordClick}
-              className="w-full sm:w-1/3 group  bg-gradient-to-r text-sm sm:text-base from-teal-500 to-teal-700 p-2 py-3  rounded-lg text-white font-semibold transition-all duration-300 hover:from-teal-600 hover:to-teal-800 cursor-pointer"
+      ) : (
+        <div className="px-4 sm:px-8 py-6 my-10 w-[96%] sm:max-w-3xl mx-auto border border-teal-100  text-center bg-teal-50 rounded-xl shadow-lg shadow-emerald-300">
+          <div className="flex gap-4 items-center font-bold text-gray-800">
+            <Link
+              to="/passwords"
+              className="p-1 hover:bg-gray-200 transition-colors duration-200 rounded-full"
             >
-              Generate Password
-            </button>
+              <IoArrowBackOutline size={25} className="" />
+            </Link>
+            <h1 className="text-3xl text-teal-700 mb-2"> Edit Password</h1>
           </div>
-
-          {/* Password strength bar */}
-          <div className="w-full">
-            <div className="flex justify-between text-sm text-gray-600">
-              <span className="">Password-strength</span>
-              <span
-                className={`text-sm capitalize ${passwordStrengthTextColor} font-medium`}
-              >
-                {passwordStrengthText}
-              </span>
-            </div>
-            <div className="flex gap-2 my-3">
-              {Array(5)
-                .fill(0)
-                .map((_, index) => (
-                  <div
-                    key={index}
-                    className={`flex flex-1 h-1 rounded-full ${barBackgrounColor(
-                      passwordStrengthScore,
-                      index
-                    )}`}
-                  ></div>
-                ))}
-            </div>
-          </div>
-          {/* Horizontal rule */}
-          <hr className="text-gray-400 mt-4" />
-          {/* Additional and Optional information */}
-          <p className="text-gray-600 font-medium text-start -mb-2">
-            Addition Information
-          </p>
-
-          {/*  Category selection */}
-          <select
-            id="category"
-            name="category"
-            aria-label="category"
-            value={passwordData.category}
-            onChange={handleFormChange}
-            className="w-full p-3 border text-gray-700 border-amber-400 capitalize bg-white/50 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+          <form
+            onSubmit={handleEditPasswordSubmit}
+            className="flex flex-col gap-4 my-10"
           >
-            {categoryOptions.map((option) => (
-              <option key={option} value={option} className="hover:bg-gray-100">
-                {option}
-              </option>
-            ))}
-          </select>
-
-          {/* Tags */}
-          <div className="flex flex-col">
+            <p className="text-gray-600 font-medium text-start -mb-2">
+              Required Information
+            </p>
+            {/* Site name */}
             <input
               type="text"
-              name="tags"
-              aria-label="tags"
-              value={currentTag}
-              onChange={handleTagChange}
-              onKeyDown={handleTagKeyDown}
-              placeholder="Type and press space, comma or enter to add tags"
+              name="siteName"
+              aria-label="site name"
+              value={passwordData.siteName}
+              placeholder="Site Name"
+              onChange={handleFormChange}
               className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
             />
 
-            {passwordData?.tags?.length > 0 && (
-              <div className="flex flex-wrap gap-2 my-2">
-                {passwordData.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="group inline-flex items-center gap-1 pl-3 py-1 rounded-full text-xs font-semibold bg-amber-200 text-gray-800 border border-gray-300 hover:bg-amber-500 hover:text-gray-100 transition-colors duration-200"
-                  >
-                    {tag}
-                    <button
-                      onClick={() => handleRemoveTag(tag)}
-                      className="p-1 rounded-full bg-teal-100 cursor-pointer group-hover:bg-teal-500 transition-colors duration-200 border border-gray-200"
-                    >
-                      <IoClose size={15} />
-                    </button>
-                  </span>
-                ))}
+            {/* Site Url */}
+            <input
+              type="text"
+              name="siteUrl"
+              aria-label="site url"
+              value={passwordData.siteUrl}
+              placeholder="Site URL"
+              onChange={handleFormChange}
+              className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
+            />
+
+            {/* user name (optional) */}
+            <input
+              type="text"
+              name="username"
+              aria-label="username"
+              value={passwordData.username}
+              placeholder="username/email (optional)"
+              onChange={handleFormChange}
+              className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
+            />
+
+            {/* password  */}
+            <div className="w-full flex flex-wrap sm:flex-nowrap sm:justify-center sm:items-center gap-2">
+              <div className="w-full sm:w-2/3 relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  aria-label="password"
+                  value={passwordData.password}
+                  placeholder="password"
+                  onChange={handleFormChange}
+                  className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
+                />
+                {showPassword ? (
+                  <FaEyeSlash
+                    size={20}
+                    className="absolute top-4 right-3"
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
+                ) : (
+                  <FaEye
+                    size={20}
+                    className="absolute top-4 right-3"
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
+                )}
               </div>
-            )}
-          </div>
+              <button
+                onClick={handleGeneratePasswordClick}
+                className="w-full sm:w-1/3 group  bg-gradient-to-r text-sm sm:text-base from-teal-500 to-teal-700 p-2 py-3  rounded-lg text-white font-semibold transition-all duration-300 hover:from-teal-600 hover:to-teal-800 cursor-pointer"
+              >
+                Generate Password
+              </button>
+            </div>
 
-          {/* Notes */}
-          <textarea
-            id="notes"
-            name="notes"
-            aria-label="notes"
-            value={passwordData.notes}
-            onChange={(e) =>
-              setPasswordData({ ...passwordData, notes: e.target.value })
-            }
-            rows={4}
-            placeholder="Enter the notes you want to remember the password"
-            spellCheck="true"
-            autoComplete="on"
-            autoCapitalize="sentences"
-            className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg resize-y focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
-          />
-
-          {error && (
-            <p className="text-red-700 text-sm text-center my-1 ">
-              {error?.response?.data?.message ||
-                "Something Went Wrong. Try Again"}
+            {/* Password strength bar */}
+            <div className="w-full">
+              <div className="flex justify-between text-sm text-gray-600">
+                <span className="">Password-strength</span>
+                <span
+                  className={`text-sm capitalize ${passwordStrengthTextColor} font-medium`}
+                >
+                  {passwordStrengthText}
+                </span>
+              </div>
+              <div className="flex gap-2 my-3">
+                {Array(5)
+                  .fill(0)
+                  .map((_, index) => (
+                    <div
+                      key={index}
+                      className={`flex flex-1 h-1 rounded-full ${barBackgrounColor(
+                        passwordStrengthScore,
+                        index
+                      )}`}
+                    ></div>
+                  ))}
+              </div>
+            </div>
+            {/* Horizontal rule */}
+            <hr className="text-gray-400 mt-4" />
+            {/* Additional and Optional information */}
+            <p className="text-gray-600 font-medium text-start -mb-2">
+              Addition Information
             </p>
-          )}
 
-          <button
-            disabled={isLoading}
-            className="group mt-3 bg-gradient-to-r cursor-pointer from-teal-500 to-teal-700 p-3 rounded-lg text-white font-semibold transition-all duration-300 hover:from-teal-600 hover:to-teal-800 transform hover:scale-105 shadow-md hover:shadow-lg shadow-teal-600 disabled:opacity-50 disabled:pointer-events-none"
-          >
-            {isLoading ? (
-              <span className="flex justify-center items-center gap-2 ">
-                <span>Loading</span> <ClipLoader color={"#A7F3D0"} size={25} />
-              </span>
-            ) : (
-              "update Password"
+            {/*  Category selection */}
+            <select
+              id="category"
+              name="category"
+              aria-label="category"
+              value={passwordData.category}
+              onChange={handleFormChange}
+              className="w-full p-3 border text-gray-700 border-amber-400 capitalize bg-white/50 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            >
+              {categoryOptions.map((option) => (
+                <option
+                  key={option}
+                  value={option}
+                  className="hover:bg-gray-100"
+                >
+                  {option}
+                </option>
+              ))}
+            </select>
+
+            {/* Tags */}
+            <div className="flex flex-col">
+              <input
+                type="text"
+                name="tags"
+                aria-label="tags"
+                value={currentTag}
+                onChange={handleTagChange}
+                onKeyDown={handleTagKeyDown}
+                placeholder="Type and press space, comma or enter to add tags"
+                className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
+              />
+
+              {passwordData?.tags?.length > 0 && (
+                <div className="flex flex-wrap gap-2 my-2">
+                  {passwordData.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="group inline-flex items-center gap-1 pl-3 py-1 rounded-full text-xs font-semibold bg-amber-200 text-gray-800 border border-gray-300 hover:bg-amber-500 hover:text-gray-100 transition-colors duration-200"
+                    >
+                      {tag}
+                      <button
+                        onClick={() => handleRemoveTag(tag)}
+                        className="p-1 rounded-full bg-teal-100 cursor-pointer group-hover:bg-teal-500 transition-colors duration-200 border border-gray-200"
+                      >
+                        <IoClose size={15} />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Notes */}
+            <textarea
+              id="notes"
+              name="notes"
+              aria-label="notes"
+              value={passwordData.notes}
+              onChange={(e) =>
+                setPasswordData({ ...passwordData, notes: e.target.value })
+              }
+              rows={4}
+              placeholder="Enter the notes you want to remember the password"
+              spellCheck="true"
+              autoComplete="on"
+              autoCapitalize="sentences"
+              className="w-full border border-amber-400 focus:border-teal-500 bg-gray-50 p-3 rounded-lg resize-y focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 text-gray-700"
+            />
+
+            {error && (
+              <p className="text-red-700 text-sm text-center my-1 ">
+                {error?.response?.data?.message ||
+                  "Something Went Wrong. Try Again"}
+              </p>
             )}
-          </button>
-        </form>
-      </div>
+
+            <button
+              disabled={isLoading}
+              className="group mt-3 bg-gradient-to-r cursor-pointer from-teal-500 to-teal-700 p-3 rounded-lg text-white font-semibold transition-all duration-300 hover:from-teal-600 hover:to-teal-800 transform hover:scale-105 shadow-md hover:shadow-lg shadow-teal-600 disabled:opacity-50 disabled:pointer-events-none"
+            >
+              {isLoading ? (
+                <span className="flex justify-center items-center gap-2 ">
+                  <span>Loading</span>{" "}
+                  <ClipLoader color={"#A7F3D0"} size={25} />
+                </span>
+              ) : (
+                "update Password"
+              )}
+            </button>
+          </form>
+        </div>
+      )}
     </>
   );
 };

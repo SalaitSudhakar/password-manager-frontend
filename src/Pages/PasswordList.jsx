@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
+  FaCheck,
+  FaCopy,
   FaEdit,
   FaExternalLinkAlt,
   FaEye,
@@ -24,6 +26,7 @@ const PasswordList = () => {
   const [category, setCategory] = useState("all");
   const [passwords, setPasswords] = useState([]);
   const [isPageLoading, setIsPageLoading] = useState(false);
+  const [copiedStatus, setCopiedStatus] = useState({});
 
   const categoryOptions = [
     "all",
@@ -53,17 +56,23 @@ const PasswordList = () => {
   }, []);
 
   const thClasses =
-    "px-4 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200";
+    "px-4 py-3 text-left text-sm font-bold text-amber-500 uppercase tracking-wider border-b border-gray-200";
   const tdClasses = "px-4 py-3 whitespace-nowrap text-gray-800";
 
   const thContents = [
-    { label: "Site Name", icon: <FaSearch className="inline mr-2" /> },
-    { label: "Site URL", icon: <FaExternalLinkAlt className="inline mr-2" /> },
-    { label: "Username", icon: <FaUser className="inline mr-2" /> },
-    { label: "Password", icon: <FaLock className="inline mr-2" /> },
-    { label: "Category", icon: <FaFilter className="inline mr-2" /> },
-    { label: "Tags", icon: <FaTag className="inline mr-2" /> },
-    { label: "Actions", icon: <FaEdit className="inline mr-2" /> },
+    {
+      label: "Site Name",
+      icon: <FaSearch size={15} className="inline mr-2" />,
+    },
+    {
+      label: "Site URL",
+      icon: <FaExternalLinkAlt size={15} className="inline mr-2" />,
+    },
+    { label: "Username", icon: <FaUser size={15} className="inline mr-2" /> },
+    { label: "Password", icon: <FaLock size={15} className="inline mr-2" /> },
+    { label: "Category", icon: <FaFilter size={15} className="inline mr-2" /> },
+    { label: "Tags", icon: <FaTag size={15} className="inline mr-2" /> },
+    { label: "Actions", icon: <FaEdit size={15} className="inline mr-2" /> },
   ];
 
   const togglePasswordVisibility = (passwordId) => {
@@ -89,10 +98,25 @@ const PasswordList = () => {
       search === "" ||
       password.siteName?.toLowerCase().includes(search) ||
       password.siteUrl?.toLowerCase().includes(search) ||
-      (password.tags && password.tags.some((tag) => tag.toLowerCase().includes(search)));
-    const matchesCategory = category === "all" || password.category === category;
+      (password.tags &&
+        password.tags.some((tag) => tag.toLowerCase().includes(search)));
+    const matchesCategory =
+      category === "all" || password.category === category;
     return matchesSearch && matchesCategory;
   });
+
+  const copyToClipboard = async (passwordId, password) => {
+    try {
+      await navigator.clipboard.writeText(password);
+      setCopiedStatus((prev) => ({ ...prev, [passwordId]: true }));
+
+      setTimeout(() => {
+        setCopiedStatus((prev) => ({ ...prev, [passwordId]: false }));
+      }, 1000);
+    } catch (error) {
+      toast.error("Failed to copy password");
+    }
+  };
 
   return (
     <>
@@ -119,7 +143,10 @@ const PasswordList = () => {
           {/* Filters */}
           <div className="relative flex flex-col sm:flex-row items-center gap-3 my-5 text-teal-700 w-full">
             <div className="relative w-full sm:w-2/3">
-              <FaSearch size={16} className="absolute top-3 left-3 text-gray-500" />
+              <FaSearch
+                size={16}
+                className="absolute top-3 left-3 text-gray-500"
+              />
               <input
                 onChange={(e) => setSearchbarContent(e.target.value)}
                 value={searchbarContent}
@@ -128,7 +155,10 @@ const PasswordList = () => {
               />
             </div>
             <div className="relative w-full sm:w-1/3">
-              <FaFilter size={16} className="absolute top-3 left-3 text-gray-500" />
+              <FaFilter
+                size={16}
+                className="absolute top-3 left-3 text-gray-500"
+              />
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
@@ -146,12 +176,14 @@ const PasswordList = () => {
           {/* Table */}
           <div className="overflow-x-auto rounded-lg shadow border border-gray-200">
             <table className="table-auto w-full border-collapse">
-              <thead className="bg-gray-200">
+              <thead className="bg-teal-800">
                 <tr>
                   {thContents.map((th, index) => (
                     <th key={index} className={thClasses}>
-                      {th.icon}
-                      {th.label}
+                      <div className="flex items-center">
+                        {th.icon}
+                        {th.label}
+                      </div>
                     </th>
                   ))}
                 </tr>
@@ -163,7 +195,9 @@ const PasswordList = () => {
                       key={passwordData._id}
                       className="hover:bg-gray-50 transition-colors duration-150"
                     >
-                      <td className={tdClasses}>{passwordData.siteName || "N/A"}</td>
+                      <td className={tdClasses}>
+                        {passwordData.siteName || "N/A"}
+                      </td>
                       <td className={tdClasses}>
                         {passwordData.siteUrl ? (
                           <a
@@ -179,26 +213,58 @@ const PasswordList = () => {
                           <span className="text-gray-500">N/A</span>
                         )}
                       </td>
-                      <td className={tdClasses}>{passwordData.username || "NA"}</td>
                       <td className={tdClasses}>
-                        <div className="flex items-center gap-2">
-                          <span className="text-gray-700 font-mono">
-                            {visiblePasswords[passwordData._id]
-                              ? passwordData.password
-                              : "••••••••"}
-                          </span>
-                          <button
-                            onClick={() => togglePasswordVisibility(passwordData._id)}
-                            className="text-gray-500 hover:text-gray-700"
-                          >
-                            {visiblePasswords[passwordData._id] ? (
-                              <FaEyeSlash size={14} />
-                            ) : (
-                              <FaEye size={14} />
-                            )}
-                          </button>
+                        {passwordData.username || "NA"}
+                      </td>
+                      <td className={tdClasses}>
+                        <div className="flex flex-col items-start gap-1 relative">
+                          <div className="flex items-center gap-2">
+                            <span className="text-gray-700 font-mono">
+                              {visiblePasswords[passwordData._id]
+                                ? passwordData.password
+                                : "••••••••"}
+                            </span>
+                            <button
+                              onClick={() =>
+                                togglePasswordVisibility(passwordData._id)
+                              }
+                              className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                              title="Toggle password visibility"
+                            >
+                              {visiblePasswords[passwordData._id] ? (
+                                <FaEyeSlash size={14} />
+                              ) : (
+                                <FaEye size={14} />
+                              )}
+                            </button>
+
+                            <div>
+                              <button
+                                onClick={() =>
+                                  copyToClipboard(
+                                    passwordData._id,
+                                    passwordData.password
+                                  )
+                                }
+                                className=" text-gray-400 hover:text-gray-600 cursor-pointer"
+                                title="Copy password"
+                              >
+                                {copiedStatus[passwordData._id] ? (
+                                  <FaCheck size={14} className="text-green-600"/>
+                                ) : (
+                                  <FaCopy size={14} />
+                                )}
+                              </button>
+                              {copiedStatus[passwordData._id] && (
+                                <span className="bg-gray-200 text-teal-800 font-semibold text-xs absolute -top-5 left-4 p-2 rounded-lg">
+                                  Copied!
+                                </span>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </td>
+
                       <td className={tdClasses}>
                         <span className="px-2 py-1 text-xs font-medium rounded-full capitalize bg-teal-100 text-teal-800">
                           {passwordData.category}
@@ -216,21 +282,27 @@ const PasswordList = () => {
                               </span>
                             ))
                           ) : (
-                            <span className="text-gray-400 text-xs">No tags</span>
+                            <span className="text-gray-400 text-xs">
+                              No tags
+                            </span>
                           )}
                         </div>
                       </td>
                       <td className={tdClasses}>
-                        <div className="flex items-center space-x-2.5">
+                        <div className="flex items-center">
                           <Link
+                            title="Edit password"
                             to={`/passwords/edit/${passwordData._id}`}
-                            className="text-blue-600 hover:text-blue-800"
+                            className="text-blue-600 hover:text-blue-800 p-2 hover:bg-blue-100 rounded-full"
                           >
                             <FaEdit size={16} />
                           </Link>
                           <button
-                            onClick={() => handlePasswordDelete(passwordData._id)}
-                            className="text-red-600 hover:text-red-800"
+                            onClick={() =>
+                              handlePasswordDelete(passwordData._id)
+                            }
+                            title="delete password"
+                            className="text-red-600 hover:text-red-800  p-2 hover:bg-red-100 rounded-full"
                           >
                             <FaTrash size={16} />
                           </button>
@@ -238,7 +310,8 @@ const PasswordList = () => {
                             to={`/passwords/${passwordData._id}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-green-600 hover:text-green-800"
+                            title="Detailed Password page Link"
+                            className="text-green-600 hover:text-green-800  p-2 hover:bg-green-100 rounded-full"
                           >
                             <FaExternalLinkAlt size={16} />
                           </Link>
@@ -248,11 +321,15 @@ const PasswordList = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="7" className="px-4 py-8 text-center text-gray-500">
+                    <td
+                      colSpan="7"
+                      className="px-4 py-8 text-center text-gray-500"
+                    >
                       {passwords.length === 0 ? (
                         <div className="flex flex-col items-center">
                           <p className="mb-2">
-                            No passwords found. Add your first password to get started.
+                            No passwords found. Add your first password to get
+                            started.
                           </p>
                           <Link
                             to="/passwords/add"
@@ -263,7 +340,10 @@ const PasswordList = () => {
                           </Link>
                         </div>
                       ) : (
-                        <p>No matching passwords found. Try adjusting your search or filter.</p>
+                        <p>
+                          No matching passwords found. Try adjusting your search
+                          or filter.
+                        </p>
                       )}
                     </td>
                   </tr>
