@@ -36,6 +36,7 @@ const PasswordPage = () => {
       setIsPageLoading(true);
       const response = await api.get(`password/get-password/${passwordId}`);
       const data = response?.data?.password;
+      console.log(data)
       if (data) setPasswordData(data);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Error Fetching Data");
@@ -133,7 +134,7 @@ const PasswordPage = () => {
               </label>
               <div className="flex items-center">
                 <span className="text-gray-800 break-all font-medium flex-grow">
-                  {passwordData?.userName || "NA"}
+                  {passwordData?.username || "NA"}
                 </span>
                 <div className="relative">
                   <button
