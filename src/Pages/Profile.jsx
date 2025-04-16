@@ -69,6 +69,8 @@ const Profile = () => {
     getUserData();
   }, []);
 
+  if (!profileData && !isPageLoading) return null;
+
   return (
     <>
       <Helmet>
@@ -88,9 +90,7 @@ const Profile = () => {
               {tabs.map((tab) => (
                 <button
                   onClick={() => {
-                    setTimeout(() => {
-                      setSelectedTab(tab.id);
-                    }, 300);
+                    setSelectedTab(tab.id);
                   }}
                   key={tab.id}
                   className={`flex flex-1 items-center text-sm sm:text-base font-bold space-x-1.5 sm:space-x-3 border border-amber-500 cursor-pointer rounded p-2 py-4 sm:p-4 transition-all duration-200 ${
