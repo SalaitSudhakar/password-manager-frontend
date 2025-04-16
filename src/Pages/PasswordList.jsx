@@ -26,6 +26,7 @@ const PasswordList = () => {
   const [category, setCategory] = useState("all");
   const [passwords, setPasswords] = useState([]);
   const [isPageLoading, setIsPageLoading] = useState(false);
+  const [isDeleteButtonClicked, setIsDeleteButtonClicked] = useState({});
   const [copiedStatus, setCopiedStatus] = useState({});
 
   const categoryOptions = [
@@ -82,6 +83,12 @@ const PasswordList = () => {
     }));
   };
 
+  const disableDeleteButton = (passwordId) => {
+    setIsDeleteButtonClicked((prev) => ({
+      ...prev,
+      [passwordId]: !prev[passwordId],
+    }));
+  };
   const handlePasswordDelete = async (passwordId) => {
     try {
       const response = await api.delete(`/password/delete/${passwordId}`);
@@ -89,6 +96,8 @@ const PasswordList = () => {
       fetchPasswords();
     } catch (error) {
       toast.error(error?.response?.data?.message);
+    } finally {
+      setIsDeleteButtonClicked(false);
     }
   };
 
@@ -250,7 +259,10 @@ const PasswordList = () => {
                                 title="Copy password"
                               >
                                 {copiedStatus[passwordData._id] ? (
-                                  <FaCheck size={14} className="text-green-600"/>
+                                  <FaCheck
+                                    size={14}
+                                    className="text-green-600"
+                                  />
                                 ) : (
                                   <FaCopy size={14} />
                                 )}
@@ -298,13 +310,19 @@ const PasswordList = () => {
                             <FaEdit size={16} />
                           </Link>
                           <button
-                            onClick={() =>
-                              handlePasswordDelete(passwordData._id)
-                            }
-                            title="delete password"
-                            className="text-red-600 hover:text-red-800  p-2 hover:bg-red-100 rounded-full"
+                            onClick={() => {
+                              disableDeleteButton(passwordData._id);
+                              handlePasswordDelete(passwordData._id);
+                            }}
+                            className={`text-red-600 hover:text-red-800 ${
+                              isDeleteButtonClicked[passwordData._id]
+                                ? "opacity-50 pointer-events-none"
+                                : ""
+                            }`}
+                            disabled={isDeleteButtonClicked[passwordData._id]}
+                            title="Delete Password"
                           >
-                            <FaTrash size={16} />
+                            <FaTrash size={14} />
                           </button>
                           <Link
                             to={`/passwords/${passwordData._id}`}

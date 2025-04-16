@@ -39,7 +39,6 @@ const PasswordPage = () => {
       setIsPageLoading(true);
       const response = await api.get(`password/get-password/${passwordId}`);
       const data = response?.data?.password;
-      console.log(data);
       if (data) setPasswordData(data);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Error Fetching Data");
@@ -60,7 +59,7 @@ const PasswordPage = () => {
   const handleDeleteButtonClick = async (e) => {
     e.preventDefault();
     try {
-      deleteButtonClicked(true)
+      setDeleteButtonClicked(true)
       const response = await api.delete(`/password/delete/${passwordData._id}`);
       toast.success(response.data.message);
       setPasswordData("");
@@ -68,7 +67,7 @@ const PasswordPage = () => {
     } catch (error) {
       toast.error(error?.response?.data?.message || "Delete failed");
     } finally {
-      deleteButtonClicked(false)
+      setDeleteButtonClicked(false)
     }
   };
 
