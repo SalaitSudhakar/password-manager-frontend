@@ -24,12 +24,6 @@ const UpdatePasswordTab = ({ selectedTab }) => {
 
   // Get passwordData
   const handlePasswordChange = (e) => {
-    console.log(
-      "old password: ",
-      passwordData.oldPassword,
-      "newPassword: ",
-      passwordData.newPassword
-    );
     setPasswordData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
