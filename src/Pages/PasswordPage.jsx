@@ -139,7 +139,7 @@ const PasswordPage = () => {
                 <div className="relative">
                   <button
                     onClick={() =>
-                      copyToClipboard(passwordData.userName, "username")
+                      copyToClipboard(passwordData.username, "username")
                     }
                     className="ml-2 cursor-pointer text-gray-400 hover:text-gray-600"
                     title="Copy username"
