@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FaInfo, FaInfoCircle, FaLink, FaLock, FaTrash, FaUser } from "react-icons/fa";
+import {
+  FaInfo,
+  FaInfoCircle,
+  FaLink,
+  FaLock,
+  FaTrash,
+  FaUser,
+} from "react-icons/fa";
 import { Helmet } from "react-helmet";
 import DeleteAccountTab from "../Components/DeleteAccountTab.jsx";
 import UpdatePasswordTab from "../Components/UpdatePasswordTab.jsx";
@@ -15,7 +22,7 @@ const Profile = () => {
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [profileData, setProfileData] = useState(null);
 
-  const { userDetails } = useSelector(state => state.user)
+  const { userDetails } = useSelector((state) => state.user);
 
   const tabs = [{ id: "profile", icon: <FaUser />, label: "Profile Section" }];
 
@@ -59,11 +66,8 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if (!profileData?.user) {
-      getUserData(); 
-    }
+    getUserData();
   }, []);
-  
 
   return (
     <>
@@ -100,14 +104,16 @@ const Profile = () => {
               ))}
             </div>
 
-           { userDetails.user.registerType === 'google' && userDetails.user.emailPasswordLinked && (
-            <div className="flex gap-2 items-center  bg-gray-200 text-gray-500 p-2 border-l-4 border-blue-500">
-              <FaInfoCircle className="text-blue-500"/>
-              <span className="font-semibold">Your Email and Password Linked successfully. Now, You can Login using email and Password.</span>
-            </div>
-           )
-
-           }
+            {userDetails.user.registerType === "google" &&
+              userDetails.user.emailPasswordLinked && (
+                <div className="flex gap-2 items-center  bg-gray-200 text-gray-500 p-2 border-l-4 border-blue-500">
+                  <FaInfoCircle className="text-blue-500" />
+                  <span className="font-semibold">
+                    Your Email and Password Linked successfully. Now, You can
+                    Login using email and Password.
+                  </span>
+                </div>
+              )}
             {/* Right Side content */}
             <div
               className={`shadow-2xl ${
@@ -115,13 +121,23 @@ const Profile = () => {
               } rounded-xl`}
             >
               {/* Profile Tab */}
-              <UpdateProfileTab selectedTab={selectedTab} profileData={profileData}/>
+              <UpdateProfileTab
+                selectedTab={selectedTab}
+                profileData={profileData}
+                refreshUserData={getUserData}
+              />
 
               {/* Update Password Tab */}
               <UpdatePasswordTab selectedTab={selectedTab} />
 
               {/* Link Email Password to your google account Tab*/}
-             {selectedTab === "link-email-password" && <LinkEmailPasswordTab selectedTab={selectedTab} onSuccess={getUserData} setSelectedTab={setSelectedTab} />}
+              {selectedTab === "link-email-password" && (
+                <LinkEmailPasswordTab
+                  selectedTab={selectedTab}
+                  onSuccess={getUserData}
+                  setSelectedTab={setSelectedTab}
+                />
+              )}
 
               {/* Delete Account Tab */}
               <DeleteAccountTab selectedTab={selectedTab} />
