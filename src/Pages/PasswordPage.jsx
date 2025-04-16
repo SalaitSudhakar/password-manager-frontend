@@ -19,6 +19,9 @@ const PasswordPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordData, setPasswordData] = useState([]);
   const [isPageLoading, setIsPageLoading] = useState(false);
+
+  const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
+
   const [copiedField, setCopiedField] = useState(""); // 'username' | 'password'
 
   const navigate = useNavigate();
@@ -36,7 +39,7 @@ const PasswordPage = () => {
       setIsPageLoading(true);
       const response = await api.get(`password/get-password/${passwordId}`);
       const data = response?.data?.password;
-      console.log(data)
+      console.log(data);
       if (data) setPasswordData(data);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Error Fetching Data");
@@ -57,14 +60,15 @@ const PasswordPage = () => {
   const handleDeleteButtonClick = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.delete(
-        `/password/delete/${passwordData._id}`
-      );
+      deleteButtonClicked(true)
+      const response = await api.delete(`/password/delete/${passwordData._id}`);
       toast.success(response.data.message);
-      setPasswordData("")
-      navigate("/passwords")
+      setPasswordData("");
+      navigate("/passwords");
     } catch (error) {
       toast.error(error?.response?.data?.message || "Delete failed");
+    } finally {
+      deleteButtonClicked(false)
     }
   };
 
@@ -99,8 +103,9 @@ const PasswordPage = () => {
                 <FaEdit size={20} />
               </button>
               <button
-                className="p-2 cursor-pointer text-red-600 hover:bg-red-50 rounded-full"
+                className={`p-2 cursor-pointer text-red-600 hover:bg-red-50 rounded-full disabled:text-gray-500`}
                 title="Delete"
+                disabled={deleteButtonClicked}
                 onClick={handleDeleteButtonClick}
               >
                 <FaTrash size={20} />
